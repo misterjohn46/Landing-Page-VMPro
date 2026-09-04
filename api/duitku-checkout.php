@@ -8,7 +8,7 @@ header('Content-Type: application/json');
 
 // Konfigurasi Sandbox Duitku
 $merchantCode = "DXXXX"; // Ganti dengan Merchant Code Sandbox Anda
-$apiKey       = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // Ganti dengan API Key Sandbox Anda
+$apiKey       = "6d9d05caae7c5c531aef961185c42884"; // API Key Sandbox Duitku
 $sandboxUrl   = "https://sandbox.duitku.com/webapi/api/merchant/v2/inquiry";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

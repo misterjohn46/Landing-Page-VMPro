@@ -8,7 +8,7 @@ const DUITKU_CONFIG = {
   // Masukkan Merchant Code Sandbox dari dashboard Duitku Anda (contoh: D1234)
   merchantCode: "DXXXX", 
   // Masukkan API Key Sandbox dari dashboard Duitku Anda
-  apiKey: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+  apiKey: "6d9d05caae7c5c531aef961185c42884",
   // URL Sandbox Duitku
   sandboxEndpoint: "https://sandbox.duitku.com/webapi/api/merchant/v2/inquiry"
 };
