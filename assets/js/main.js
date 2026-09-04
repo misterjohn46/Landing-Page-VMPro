@@ -254,3 +254,124 @@ function initSmoothScroll() {
     });
   });
 }
+
+/* =========================================================================
+   7. DUITKU SANDBOX CHECKOUT MODAL & SIMULATION
+   ========================================================================= */
+let currentCheckoutItem = { name: "Paket POS Standar", price: 2500000 };
+
+window.openCheckoutModal = function(packageName, price) {
+  currentCheckoutItem = { name: packageName, price: price };
+  const modal = document.getElementById("checkout-modal");
+  const modalTitle = document.getElementById("checkout-item-title");
+  const modalPrice = document.getElementById("checkout-item-price");
+  const invoiceCode = document.getElementById("checkout-invoice-code");
+  
+  if (modalTitle) modalTitle.textContent = packageName;
+  if (modalPrice) modalPrice.textContent = "Rp " + price.toLocaleString("id-ID");
+  if (invoiceCode) invoiceCode.textContent = "VMP-" + Math.floor(100000 + Math.random() * 900000);
+  
+  // Reset step views
+  const stepForm = document.getElementById("checkout-step-form");
+  const stepPay = document.getElementById("checkout-step-payment");
+  const stepSuccess = document.getElementById("checkout-step-success");
+  if (stepForm) stepForm.classList.remove("hidden");
+  if (stepPay) stepPay.classList.add("hidden");
+  if (stepSuccess) stepSuccess.classList.add("hidden");
+
+  if (modal) {
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+};
+
+window.closeCheckoutModal = function() {
+  const modal = document.getElementById("checkout-modal");
+  if (modal) {
+    modal.classList.add("hidden");
+    document.body.style.overflow = "auto";
+  }
+};
+
+window.processCheckoutToPayment = function(e) {
+  if (e) e.preventDefault();
+  const method = document.querySelector('input[name="payment-method"]:checked')?.value || "QRIS";
+
+  // Switch to payment view
+  document.getElementById("checkout-step-form")?.classList.add("hidden");
+  document.getElementById("checkout-step-payment")?.classList.remove("hidden");
+
+  const methodLabel = document.getElementById("payment-method-selected");
+  if (methodLabel) methodLabel.textContent = method;
+
+  const payAmount = document.getElementById("payment-amount-display");
+  if (payAmount) payAmount.textContent = "Rp " + currentCheckoutItem.price.toLocaleString("id-ID");
+};
+
+window.simulatePaymentSuccess = function() {
+  document.getElementById("checkout-step-payment")?.classList.add("hidden");
+  document.getElementById("checkout-step-success")?.classList.remove("hidden");
+};
+
+/* =========================================================================
+   8. LEGAL & COMPLIANCE MODALS (TERMS, PRIVACY, REFUND)
+   ========================================================================= */
+const legalContents = {
+  terms: {
+    title: "Syarat & Ketentuan Layanan (Terms of Service)",
+    body: `
+      <p class="mb-3">Selamat datang di <strong>Vega MediaPro</strong>. Dengan memesan layanan jasa pembuatan aplikasi kami, Anda menyetujui ketentuan berikut:</p>
+      <ul class="list-disc pl-5 space-y-2 mb-3">
+        <li><strong>Ruang Lingkup:</strong> Vega MediaPro menyediakan jasa pembuatan software kustom (POS Kasir, Sistem Informasi Sekolah, dan Web/Mobile App) sesuai kesepakatan spesifikasi awal (Scope of Work).</li>
+        <li><strong>Sistem Pembayaran:</strong> Pembayaran dapat dilakukan secara bertahap (DP minimal 30% - 50% di awal) melalui gateway pembayaran resmi Duitku atau transfer bank, dan pelunasan saat sistem selesai diuji coba.</li>
+        <li><strong>Hak Cipta & Kepemilikan:</strong> Setelah pelunasan, klien berhak atas akses penuh dan pemanfaatan sistem sesuai perjanjian lisensi.</li>
+        <li><strong>Garansi:</strong> Kami memberikan garansi perbaikan bug dan error gratis selama 3 hingga 6 bulan sejak tanggal serah terima.</li>
+      </ul>
+    `
+  },
+  privacy: {
+    title: "Kebijakan Privasi (Privacy Policy)",
+    body: `
+      <p class="mb-3">Di <strong>Vega MediaPro</strong>, kami menjaga kerahasiaan data pribadi maupun data bisnis klien:</p>
+      <ul class="list-disc pl-5 space-y-2 mb-3">
+        <li><strong>Pengumpulan Data:</strong> Kami hanya mengumpulkan informasi yang relevan seperti Nama, Kontak WhatsApp, Email, dan Alamat Usaha untuk keperluan pemesanan serta penagihan invoice.</li>
+        <li><strong>Keamanan Data:</strong> Kami tidak pernah menjual atau membagikan data Anda kepada pihak luar tanpa persetujuan Anda.</li>
+        <li><strong>Pemrosesan Pembayaran:</strong> Transaksi online diproses aman melalui mitra payment gateway berizin resmi Bank Indonesia (Duitku) menggunakan enkripsi SSL standar perbankan.</li>
+      </ul>
+    `
+  },
+  refund: {
+    title: "Kebijakan Pengembalian Dana & Pembatalan (Refund Policy)",
+    body: `
+      <p class="mb-3">Ketentuan pembatalan dan pengembalian dana di <strong>Vega MediaPro</strong>:</p>
+      <ul class="list-disc pl-5 space-y-2 mb-3">
+        <li><strong>Pembatalan Sebelum Pengerjaan:</strong> Jika pembatalan diajukan sebelum proses rancang bangun dimulai, dana DP dapat dikembalikan dipotong biaya administrasi 10%.</li>
+        <li><strong>Pembatalan Saat Pengerjaan Berjalan:</strong> Jika pengerjaan sistem telah berjalan di atas 30%, DP tidak dapat dikembalikan karena telah teralokasi untuk biaya riset dan pengerjaan developer.</li>
+        <li><strong>Jaminan Revisi:</strong> Jika ada fitur yang belum sesuai dengan kesepakatan awal (SOW), kami berkomitmen penuh memberikan revisi perbaikan hingga sesuai.</li>
+      </ul>
+    `
+  }
+};
+
+window.openPolicyModal = function(type) {
+  const content = legalContents[type];
+  if (!content) return;
+  const modal = document.getElementById("legal-modal");
+  const modalTitle = document.getElementById("legal-modal-title");
+  const modalBody = document.getElementById("legal-modal-body");
+  
+  if (modalTitle) modalTitle.textContent = content.title;
+  if (modalBody) modalBody.innerHTML = content.body;
+  if (modal) {
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+};
+
+window.closePolicyModal = function() {
+  const modal = document.getElementById("legal-modal");
+  if (modal) {
+    modal.classList.add("hidden");
+    document.body.style.overflow = "auto";
+  }
+};
