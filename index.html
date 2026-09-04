@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vega MediaPro - Jasa Pembuatan Aplikasi POS Kasir &amp; Sistem Informasi Sekolah</title>
+  <meta name="description" content="Jasa pembuatan aplikasi POS Kasir toko/cafe, Sistem Informasi Sekolah terpadu, dan aplikasi web custom profesional, cepat, dan bergaransi resmi." />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              200: '#c7d2fe',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+              900: '#312e81',
+            },
+            accent: {
+              emerald: '#10b981',
+              cyan: '#06b6d4',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body class="bg-slate-950 text-slate-100 antialiased overflow-x-hidden selection:bg-indigo-600 selection:text-white">
+
+  <!-- =========================================================================
+       1. NAVBAR
+       ========================================================================= -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-lg border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#beranda" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30 group-hover:scale-105 transition">
+          <i class="fa-solid fa-code text-lg"></i>
+        </div>
+        <div>
+          <span class="text-xl font-extrabold tracking-tight text-white flex items-center gap-1.5">
+            Vega<span class="text-indigo-400">MediaPro</span>
+            <span class="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Tech</span>
+          </span>
+          <p class="text-[11px] text-slate-400 font-medium">Software & System Solution</p>
+        </div>
+      </a>
+
+      <!-- Desktop Nav Menu -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#beranda" class="hover:text-indigo-400 transition">Beranda</a>
+        <a href="#layanan" class="hover:text-indigo-400 transition">Layanan Unggulan</a>
+        <a href="#showcase" class="hover:text-indigo-400 transition">Demo Aplikasi</a>
+        <a href="#keunggulan" class="hover:text-indigo-400 transition">Keunggulan</a>
+        <a href="#harga" class="hover:text-indigo-400 transition">Paket Biaya</a>
+        <a href="#estimator" class="hover:text-indigo-400 transition">Kalkulator Kebutuhan</a>
+        <a href="#faq" class="hover:text-indigo-400 transition">FAQ</a>
+      </nav>
+
+      <!-- CTA Button Desktop -->
+      <div class="hidden md:flex items-center gap-4">
+        <button onclick="openWhatsAppDirect('Konsultasi Umum Pembuatan Aplikasi')" class="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 transition transform hover:-translate-y-0.5">
+          <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
+          <span>Konsultasi Gratis</span>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <div class="md:hidden flex items-center">
+        <button id="mobile-menu-btn" class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white focus:outline-none" aria-label="Menu">
+          <span id="menu-icon">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Menu -->
+    <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-6 bg-slate-950 border-b border-slate-800 space-y-3">
+      <a href="#beranda" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Beranda</a>
+      <a href="#layanan" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Layanan Unggulan</a>
+      <a href="#showcase" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Demo Aplikasi</a>
+      <a href="#keunggulan" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Keunggulan</a>
+      <a href="#harga" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Paket Biaya</a>
+      <a href="#estimator" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Kalkulator Kebutuhan</a>
+      <a href="#faq" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">FAQ</a>
+      <button onclick="openWhatsAppDirect('Konsultasi Pembuatan Aplikasi')" class="w-full mt-3 flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 text-white font-semibold text-sm shadow-md">
+        <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
+        <span>Konsultasi Cepat via WhatsApp</span>
+      </button>
+    </div>
+  </header>
+
+
+  <!-- =========================================================================
+       2. HERO SECTION
+       ========================================================================= -->
+  <section id="beranda" class="relative pt-32 pb-20 md:pt-44 md:pb-32 overflow-hidden">
+    <!-- Ambient Background Glows -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-indigo-600/15 blur-[120px] rounded-full pointer-events-none"></div>
+    <div class="absolute top-1/3 left-10 w-[300px] h-[300px] bg-cyan-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+    <div class="absolute top-1/3 right-10 w-[300px] h-[300px] bg-emerald-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center max-w-4xl mx-auto">
+        
+        <!-- Trust Pill Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-xs font-semibold text-slate-300 mb-8 shadow-inner">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 pulse-active"></span>
+          <span>Siap Kembangkan Sistem Kustom Bisnis & Sekolah Anda</span>
+          <span class="text-slate-500">•</span>
+          <span class="text-indigo-400">Garansi & Full Pendampingan</span>
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.15] mb-6">
+          Jasa Pembuatan Aplikasi <br class="hidden sm:inline" />
+          <span class="gradient-text-primary">POS Kasir Modern</span> &amp; 
+          <span class="gradient-text-emerald">Sistem Informasi Sekolah</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-lg sm:text-xl text-slate-300 font-normal leading-relaxed mb-10 max-w-2xl mx-auto">
+          Tingkatkan efisiensi toko, cafe, dan sekolah Anda dengan aplikasi yang dibuat <strong class="text-white">khusus sesuai alur kerja nyata Anda</strong>. Cepat, mudah dioperasikan staf awam, dan tanpa biaya bulanan tersembunyi.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-14">
+          <button onclick="openWhatsAppDirect('Saya ingin konsultasi pembuatan aplikasi POS / Sistem Sekolah')" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-indigo-600 hover:from-indigo-500 hover:to-indigo-400 text-white font-bold text-base shadow-xl shadow-indigo-600/30 hover:shadow-indigo-600/50 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+            <i class="fa-brands fa-whatsapp text-2xl text-emerald-400"></i>
+            <span>Konsultasi Kebutuhan Anda (Gratis)</span>
+          </button>
+          
+          <a href="#estimator" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-semibold text-base transition flex items-center justify-center gap-2.5">
+            <i class="fa-solid fa-calculator text-indigo-400"></i>
+            <span>Hitung Estimasi Fitur</span>
+          </a>
+        </div>
+
+        <!-- Trust Features Bar -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-slate-800/80 text-left">
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-800/60">
+            <div class="w-10 h-10 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg shrink-0">
+              <i class="fa-solid fa-hand-holding-dollar"></i>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400 font-medium">Investasi</p>
+              <p class="text-sm font-bold text-white">Sistem Beli Lepas</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-800/60">
+            <div class="w-10 h-10 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg shrink-0">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400 font-medium">Jaminan Kualitas</p>
+              <p class="text-sm font-bold text-white">Garansi Bug & Error</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-800/60">
+            <div class="w-10 h-10 rounded-lg bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg shrink-0">
+              <i class="fa-solid fa-chalkboard-user"></i>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400 font-medium">Pendampingan</p>
+              <p class="text-sm font-bold text-white">Gratis Training Staf</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-900/40 border border-slate-800/60">
+            <div class="w-10 h-10 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center text-lg shrink-0">
+              <i class="fa-solid fa-sliders"></i>
+            </div>
+            <div>
+              <p class="text-xs text-slate-400 font-medium">Fleksibilitas</p>
+              <p class="text-sm font-bold text-white">100% Kustom Alur</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       3. CORE SOLUTIONS (LAYANAN UNGGULAN)
+       ========================================================================= -->
+  <section id="layanan" class="py-24 bg-slate-900/50 border-y border-slate-800/60 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3.5 py-1 rounded-full border border-indigo-500/20">
+          Solusi Aplikasi Terbaik
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-4">
+          Aplikasi Disesuaikan Persis Sesuai Alur Bisnis Anda
+        </h2>
+        <p class="text-slate-400 text-base">
+          Tidak perlu kompromi menggunakan software kaku yang menyulitkan karyawan Anda. Kami rancang antarmuka yang simpel, cepat, dan handal.
+        </p>
+      </div>
+
+      <!-- Solutions Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Service Card 1: POS KASIR -->
+        <div class="glass-card glass-card-hover rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/20 transition"></div>
+          
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl mb-6">
+              <i class="fa-solid fa-cash-register"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">Aplikasi Kasir / POS</h3>
+            <p class="text-sm text-indigo-300 font-semibold mb-4">Untuk Toko Retail, Cafe, Resto, Apotek, Bengkel</p>
+            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+              Mempercepat transaksi di meja kasir, mencatat riwayat penjualan otomatis, dan mengontrol kebocoran stok barang secara real-time.
+            </p>
+
+            <!-- Feature bullets -->
+            <ul class="space-y-3 mb-8 text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Cetak struk kasir Bluetooth, USB Thermal, & print ke dapur</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Support barcode scanner & cetak barcode produk</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Multi-cabang / multi-outlet dengan sinkronisasi terpusat</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Laporan omset, laba bersih, dan barang terlaris otomatis</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Pembayaran QRIS Dinamis & pencatatan metode transfer/cash</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="openWhatsAppDirect('Paket Aplikasi Kasir / POS')" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-indigo-600 text-white font-semibold text-sm transition flex items-center justify-center gap-2 border border-slate-700 hover:border-indigo-500">
+            <span>Tanya Solusi POS Kasir</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Service Card 2: SISTEM INFORMASI SEKOLAH -->
+        <div class="glass-card glass-card-hover rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden group border-indigo-500/40 shadow-xl shadow-indigo-900/20">
+          <div class="absolute -top-1 -right-1 bg-gradient-to-r from-emerald-500 to-cyan-500 text-slate-950 font-extrabold text-[11px] uppercase tracking-wider px-3 py-1 rounded-bl-xl shadow-md">
+            Paling Diminati
+          </div>
+          
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-2xl mb-6">
+              <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">Sistem Informasi Sekolah</h3>
+            <p class="text-sm text-emerald-400 font-semibold mb-4">Untuk SD, SMP, SMA, SMK, Madrasah &amp; Pesantren</p>
+            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+              Solusi digitalisasi operasional sekolah terpadu yang menghubungkan pihak yayasan, guru, siswa, hingga orang tua secara transparan.
+            </p>
+
+            <!-- Feature bullets -->
+            <ul class="space-y-3 mb-8 text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>PPDB Online (Pendaftaran, upload berkas, seleksi otomatis)</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Presensi Digital Guru &amp; Siswa (QR Code / GPS Lokasi / RFID)</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Manajemen SPP + Tagihan &amp; Notifikasi WhatsApp Otomatis ke Wali</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>e-Rapor Kurikulum Merdeka &amp; K13 cetak instan</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Portal Siswa/Orang Tua untuk cek nilai dan tunggakan administrasi</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="openWhatsAppDirect('Paket Sistem Informasi Sekolah')" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-semibold text-sm transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30">
+            <span>Tanya Solusi SIM Sekolah</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+
+        <!-- Service Card 3: CUSTOM APPS -->
+        <div class="glass-card glass-card-hover rounded-2xl p-8 flex flex-col justify-between relative overflow-hidden group">
+          <div class="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 rounded-full blur-2xl group-hover:bg-cyan-500/20 transition"></div>
+          
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center text-cyan-400 text-2xl mb-6">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">Aplikasi Web & Mobile Kustom</h3>
+            <p class="text-sm text-cyan-300 font-semibold mb-4">Untuk Perusahaan, UMKM, Startup &amp; Instansi</p>
+            <p class="text-slate-400 text-sm mb-6 leading-relaxed">
+              Memiliki ide atau proses bisnis unik? Kami wujudkan dalam bentuk sistem aplikasi berbasis web atau Android yang scalable dan aman.
+            </p>
+
+            <!-- Feature bullets -->
+            <ul class="space-y-3 mb-8 text-sm text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Sistem Manajemen Pergudangan &amp; Inventory Gudang (WMS)</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Sistem Booking, Reservasi, atau Antrean Pelanggan</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Integrasi Payment Gateway &amp; Ekspedisi Logistik</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Aplikasi Android (APK / Web App Progressive)</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <i class="fa-solid fa-check text-emerald-400 mt-1"></i>
+                <span>Company profile interaktif dengan portal pelanggan terintegrasi</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="openWhatsAppDirect('Aplikasi Kustom / Sesuai Kebutuhan Spesifik')" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-indigo-600 text-white font-semibold text-sm transition flex items-center justify-center gap-2 border border-slate-700 hover:border-indigo-500">
+            <span>Konsultasi Aplikasi Kustom</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       4. INTERACTIVE DEMO SHOWCASE (TAB PREVIEWS)
+       ========================================================================= -->
+  <section id="showcase" class="py-24 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/10 px-3.5 py-1 rounded-full border border-cyan-500/20">
+          Preview Tampilan Antarmuka
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-4">
+          Antarmuka Nyaman, Rapi, &amp; Mudah Dipahami
+        </h2>
+        <p class="text-slate-400 text-base">
+          Lihat sekilas desain antarmuka dashboard aplikasi kami yang ramah pengguna.
+        </p>
+
+        <!-- Tab Buttons -->
+        <div class="inline-flex p-1.5 rounded-2xl bg-slate-900 border border-slate-800 mt-8">
+          <button class="showcase-tab-btn px-6 py-2.5 rounded-xl text-sm font-bold transition bg-indigo-600 text-white shadow-lg shadow-indigo-500/25" data-tab="tab-pos">
+            <i class="fa-solid fa-cash-register mr-2"></i> Demo POS Kasir
+          </button>
+          <button class="showcase-tab-btn px-6 py-2.5 rounded-xl text-sm font-bold text-slate-400 hover:text-white transition" data-tab="tab-school">
+            <i class="fa-solid fa-school mr-2"></i> Demo SIM Sekolah
+          </button>
+        </div>
+      </div>
+
+      <!-- Mockup Window Container -->
+      <div class="max-w-5xl mx-auto rounded-2xl border border-slate-800 bg-slate-900/90 shadow-2xl shadow-indigo-500/10 overflow-hidden">
+        
+        <!-- Window Topbar -->
+        <div class="h-11 bg-slate-900 border-b border-slate-800 px-4 flex items-center justify-between">
+          <div class="window-dots">
+            <div class="window-dot bg-rose-500"></div>
+            <div class="window-dot bg-amber-500"></div>
+            <div class="window-dot bg-emerald-500"></div>
+          </div>
+          <div class="text-xs text-slate-400 font-mono flex items-center gap-1.5">
+            <i class="fa-solid fa-lock text-[10px] text-emerald-400"></i>
+            <span>https://app.vegamediapro.com/demo</span>
+          </div>
+          <div class="w-12"></div>
+        </div>
+
+        <!-- TAB 1: POS KASIR CONTENT -->
+        <div id="tab-pos" class="showcase-content p-6 sm:p-8 bg-slate-950">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Side: POS Product Grid Mockup -->
+            <div class="lg:col-span-8 space-y-6">
+              
+              <!-- Stats Row -->
+              <div class="grid grid-cols-3 gap-3">
+                <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                  <p class="text-xs text-slate-400">Omset Hari Ini</p>
+                  <p class="text-lg sm:text-xl font-bold text-emerald-400">Rp 4.850.000</p>
+                  <span class="text-[10px] text-slate-500 font-medium">↑ 18% dari kemarin</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                  <p class="text-xs text-slate-400">Total Transaksi</p>
+                  <p class="text-lg sm:text-xl font-bold text-white">128 Struk</p>
+                  <span class="text-[10px] text-indigo-400 font-medium">Kasir 01 Aktif</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                  <p class="text-xs text-slate-400">Stok Menipis</p>
+                  <p class="text-lg sm:text-xl font-bold text-amber-400">3 Produk</p>
+                  <span class="text-[10px] text-amber-500/80 font-medium">Perlu restock</span>
+                </div>
+              </div>
+
+              <!-- Product Item Mockup Buttons -->
+              <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Pilih Menu / Scan Barcode</span>
+                  <div class="flex items-center gap-2 text-xs text-indigo-400 bg-indigo-500/10 px-3 py-1 rounded-lg border border-indigo-500/20">
+                    <i class="fa-solid fa-barcode"></i>
+                    <span>Scanner Siap</span>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div class="p-3 rounded-lg bg-slate-800/80 border border-slate-700/60 text-left hover:border-indigo-500 transition cursor-pointer">
+                    <span class="text-xs font-semibold text-slate-200 block truncate">Kopi Latte Caramel</span>
+                    <span class="text-xs text-emerald-400 font-bold">Rp 22.000</span>
+                    <span class="text-[10px] text-slate-400 block">Stok: 45</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-800/80 border border-slate-700/60 text-left hover:border-indigo-500 transition cursor-pointer">
+                    <span class="text-xs font-semibold text-slate-200 block truncate">Matcha Ice Blend</span>
+                    <span class="text-xs text-emerald-400 font-bold">Rp 25.000</span>
+                    <span class="text-[10px] text-slate-400 block">Stok: 28</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-800/80 border border-slate-700/60 text-left hover:border-indigo-500 transition cursor-pointer">
+                    <span class="text-xs font-semibold text-slate-200 block truncate">Croissant Almond</span>
+                    <span class="text-xs text-emerald-400 font-bold">Rp 18.000</span>
+                    <span class="text-[10px] text-slate-400 block">Stok: 12</span>
+                  </div>
+                  <div class="p-3 rounded-lg bg-slate-800/80 border border-slate-700/60 text-left hover:border-indigo-500 transition cursor-pointer">
+                    <span class="text-xs font-semibold text-slate-200 block truncate">Espresso Double</span>
+                    <span class="text-xs text-emerald-400 font-bold">Rp 15.000</span>
+                    <span class="text-[10px] text-slate-400 block">Stok: 80</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Right Side: Order Receipt Mockup -->
+            <div class="lg:col-span-4 bg-slate-900 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between pb-3 border-b border-slate-800 mb-4">
+                  <span class="font-bold text-sm text-white">Pesanan #POS-094</span>
+                  <span class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 font-semibold">Dine In</span>
+                </div>
+
+                <div class="space-y-3 text-xs mb-6">
+                  <div class="flex justify-between text-slate-300">
+                    <span>2x Kopi Latte Caramel</span>
+                    <span class="font-semibold text-white">Rp 44.000</span>
+                  </div>
+                  <div class="flex justify-between text-slate-300">
+                    <span>1x Croissant Almond</span>
+                    <span class="font-semibold text-white">Rp 18.000</span>
+                  </div>
+                  <div class="border-t border-slate-800 pt-2 flex justify-between font-bold text-sm text-emerald-400">
+                    <span>Total Pembayaran</span>
+                    <span>Rp 62.000</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="grid grid-cols-2 gap-2">
+                  <button class="py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-xs text-white font-medium flex items-center justify-center gap-1.5 hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-qrcode text-indigo-400"></i> QRIS Dinamis
+                  </button>
+                  <button class="py-2.5 rounded-lg bg-slate-800 border border-slate-700 text-xs text-white font-medium flex items-center justify-center gap-1.5 hover:bg-slate-700 transition">
+                    <i class="fa-solid fa-money-bill-wave text-emerald-400"></i> Tunai Pas
+                  </button>
+                </div>
+                <button class="w-full py-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30">
+                  <i class="fa-solid fa-print"></i> Cetak Struk Bluetooth
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- TAB 2: SISTEM SEKOLAH CONTENT -->
+        <div id="tab-school" class="showcase-content p-6 sm:p-8 bg-slate-950 hidden">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            <!-- Left Side: School Dashboard Stats -->
+            <div class="lg:col-span-8 space-y-6">
+              
+              <div class="grid grid-cols-3 gap-3">
+                <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                  <p class="text-xs text-slate-400">Presensi Hari Ini</p>
+                  <p class="text-lg sm:text-xl font-bold text-emerald-400">98.2%</p>
+                  <span class="text-[10px] text-slate-500">1.240 / 1.262 Siswa</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                  <p class="text-xs text-slate-400">Pendaftar PPDB Online</p>
+                  <p class="text-lg sm:text-xl font-bold text-cyan-400">315 Calon</p>
+                  <span class="text-[10px] text-slate-500">Gelombang 1 Dibuka</span>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+                  <p class="text-xs text-slate-400">Setoran SPP Bulan Ini</p>
+                  <p class="text-lg sm:text-xl font-bold text-indigo-400">Rp 184.500.000</p>
+                  <span class="text-[10px] text-slate-500">WA Notifikasi Terkirim</span>
+                </div>
+              </div>
+
+              <!-- Data Siswa & Presensi Live Feed -->
+              <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-800">
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Live Absensi Siswa (Gerbang Sekolah)</span>
+                  <span class="text-[11px] text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full">QR Scanner Aktif</span>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                  <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/50">
+                    <div class="flex items-center gap-3">
+                      <div class="w-7 h-7 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold text-[10px]">MR</div>
+                      <div>
+                        <p class="font-semibold text-white">Muhammad Rizky</p>
+                        <p class="text-[10px] text-slate-400">Kelas XI RPL 1 • NISN: 00729381</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-emerald-400 font-bold">Hadir (06:42 WIB)</span>
+                      <p class="text-[10px] text-slate-500">WA Orang Tua Terkirim ✓</p>
+                    </div>
+                  </div>
+
+                  <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-800/60 border border-slate-700/50">
+                    <div class="flex items-center gap-3">
+                      <div class="w-7 h-7 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-[10px]">AN</div>
+                      <div>
+                        <p class="font-semibold text-white">Aisyah Nurhaliza</p>
+                        <p class="text-[10px] text-slate-400">Kelas X MIPA 2 • NISN: 00819402</p>
+                      </div>
+                    </div>
+                    <div class="text-right">
+                      <span class="text-emerald-400 font-bold">Hadir (06:45 WIB)</span>
+                      <p class="text-[10px] text-slate-500">WA Orang Tua Terkirim ✓</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Right Side: Action Quick Menu -->
+            <div class="lg:col-span-4 bg-slate-900 p-5 rounded-xl border border-slate-800 flex flex-col justify-between">
+              <div>
+                <span class="font-bold text-sm text-white block mb-4">Fitur Terintegrasi SIM Sekolah</span>
+                <ul class="space-y-2.5 text-xs text-slate-300">
+                  <li class="p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/40 flex items-center gap-2.5">
+                    <i class="fa-solid fa-file-invoice-dollar text-emerald-400"></i>
+                    <span>Cetak Kartu Ujian &amp; Bukti SPP</span>
+                  </li>
+                  <li class="p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/40 flex items-center gap-2.5">
+                    <i class="fa-solid fa-address-card text-indigo-400"></i>
+                    <span>Cetak Kartu Pelajar Barcode/QR</span>
+                  </li>
+                  <li class="p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/40 flex items-center gap-2.5">
+                    <i class="fa-solid fa-book-open text-cyan-400"></i>
+                    <span>e-Rapor Kurikulum Merdeka</span>
+                  </li>
+                  <li class="p-2.5 rounded-lg bg-slate-800/50 border border-slate-700/40 flex items-center gap-2.5">
+                    <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+                    <span>Broadcast Pengumuman Sekolah</span>
+                  </li>
+                </ul>
+              </div>
+
+              <button onclick="openWhatsAppDirect('Demo Lengkap Sistem Informasi Sekolah')" class="w-full mt-6 py-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30">
+                <i class="fa-brands fa-whatsapp text-base"></i> Minta Jadwal Demo Presentasi
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       5. WHY CHOOSE VMPRO (KEUNGGULAN)
+       ========================================================================= -->
+  <section id="keunggulan" class="py-24 bg-slate-900/40 border-y border-slate-800/60 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3.5 py-1 rounded-full border border-indigo-500/20">
+          Nilai Tambah Kami
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-4">
+          Kenapa Ratusan Klien Mempercayakan Software ke Vega MediaPro?
+        </h2>
+        <p class="text-slate-400 text-base">
+          Kami bukan hanya sekadar membuat baris kode, tapi kami memastikan aplikasi benar-benar dipakai dan menyelesaikan masalah nyata bisnis Anda.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- Benefit 1 -->
+        <div class="p-7 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl mb-5">
+            <i class="fa-solid fa-ban"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2.5">Sistem Beli Lepas Tanpa Langganan</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Tidak ada biaya bulanan yang mencekik. Aplikasi 100% menjadi aset milik usaha atau sekolah Anda tanpa ketergantungan sewa platform luar.
+          </p>
+        </div>
+
+        <!-- Benefit 2 -->
+        <div class="p-7 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl mb-5">
+            <i class="fa-solid fa-puzzle-piece"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2.5">Kustom 100% Sesuai Kebutuhan</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Punya alur kasir khusus atau formula penilaian rapor tertentu? Kami sesuaikan fiturnya persis dengan Standar Operasional (SOP) Anda.
+          </p>
+        </div>
+
+        <!-- Benefit 3 -->
+        <div class="p-7 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl mb-5">
+            <i class="fa-solid fa-users-gear"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2.5">Gratis Pelatihan &amp; Training Staf</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Khawatir staf atau guru gaptek? Kami dampingi dengan pelatihan langsung (online/onsite) dan video tutorial panduan yang gampang dipelajari.
+          </p>
+        </div>
+
+        <!-- Benefit 4 -->
+        <div class="p-7 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-400 flex items-center justify-center text-xl mb-5">
+            <i class="fa-solid fa-shield-virus"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2.5">Garansi Bug &amp; Maintenance</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Jika terjadi error atau kendala teknis setelah aplikasi berjalan, tim developer kami siap memperbaiki secara cepat tanpa pungutan biaya tambahan.
+          </p>
+        </div>
+
+        <!-- Benefit 5 -->
+        <div class="p-7 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="w-12 h-12 rounded-xl bg-rose-500/10 text-rose-400 flex items-center justify-center text-xl mb-5">
+            <i class="fa-brands fa-whatsapp"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2.5">Integrasi WhatsApp Gateway Otomatis</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Kirim struk kasir digital ke nomor WA pembeli atau kirim notifikasi tagihan SPP dan presensi harian otomatis langsung ke HP orang tua siswa.
+          </p>
+        </div>
+
+        <!-- Benefit 6 -->
+        <div class="p-7 rounded-2xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/50 transition">
+          <div class="w-12 h-12 rounded-xl bg-purple-500/10 text-purple-400 flex items-center justify-center text-xl mb-5">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+          </div>
+          <h3 class="text-lg font-bold text-white mb-2.5">Keamanan &amp; Backup Data Teratur</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">
+            Data transaksi toko dan data siswa tersimpan di cloud server terlindungi dengan fitur backup berkala otomatis guna mencegah kehilangan data penting.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       6. WORKFLOW (ALUR PENGERJAAN)
+       ========================================================================= -->
+  <section class="py-24 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-3.5 py-1 rounded-full border border-emerald-500/20">
+          Transparan &amp; Terencana
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-4">
+          4 Langkah Mudah Mewujudkan Aplikasi Impian Anda
+        </h2>
+        <p class="text-slate-400 text-base">
+          Kami memandu setiap tahapan secara jelas sehingga hasil akhir tepat waktu dan sesuai ekspektasi.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
+        
+        <!-- Step 1 -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 relative">
+          <span class="text-4xl font-extrabold text-slate-800 mb-4 block">01</span>
+          <h4 class="text-base font-bold text-white mb-2">Konsultasi Kebutuhan</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Diskusi mendalam mengenai alur operasional toko/sekolah Anda, fitur prioritas, dan estimasi waktu penyelesaian.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 relative">
+          <span class="text-4xl font-extrabold text-slate-800 mb-4 block">02</span>
+          <h4 class="text-base font-bold text-white mb-2">Desain &amp; Prototipe</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Kami rancang antarmuka pengguna (UI) dan struktur database agar nyaman digunakan oleh staf di lapangan.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 relative">
+          <span class="text-4xl font-extrabold text-slate-800 mb-4 block">03</span>
+          <h4 class="text-base font-bold text-white mb-2">Coding &amp; Uji Coba</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Pengembangan kode program dengan pengujian ketat (testing kasir, struk thermal, laporan laba, form sekolah).
+          </p>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 relative">
+          <span class="text-4xl font-extrabold text-slate-800 mb-4 block">04</span>
+          <h4 class="text-base font-bold text-white mb-2">Pelatihan &amp; Serah Terima</h4>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Pelatihan staf secara menyeluruh, penyerahan hak akses/source code, dan mulai berlakunya masa garansi.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       7. PRICING PACKAGES (PAKET BIAYA)
+       ========================================================================= -->
+  <section id="harga" class="py-24 bg-slate-900/50 border-y border-slate-800/60 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3.5 py-1 rounded-full border border-indigo-500/20">
+          Estimasi Investasi Transparan
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-4">
+          Pilihan Paket Sesuai Skala Kebutuhan
+        </h2>
+        <p class="text-slate-400 text-base">
+          Investasi sekali di awal untuk penggunaan jangka panjang tanpa beban langganan bulanan.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- Package 1: POS UMKM -->
+        <div class="p-8 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Untuk 1 Toko / Cafe</span>
+            <h3 class="text-2xl font-bold text-white mt-1 mb-2">Paket POS Standar</h3>
+            <p class="text-xs text-slate-400 mb-6">Solusi kasir cepat untuk retail, cafe, dan toko mandiri.</p>
+            
+            <div class="mb-6 pb-6 border-b border-slate-800">
+              <span class="text-xs text-slate-400 block">Investasi Mulai Dari</span>
+              <span class="text-3xl font-extrabold text-white">Rp 2.500.000</span>
+              <span class="text-xs text-emerald-400 font-semibold block mt-1">✓ Beli Lepas / Sekali Bayar</span>
+            </div>
+
+            <ul class="space-y-3 text-xs text-slate-300 mb-8">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Kasir penjualan cepat &amp; cetak struk</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Support printer thermal bluetooth / USB</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Barcode scanner support</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Laporan harian &amp; stok barang dasar</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Training staf &amp; garansi 3 bulan</li>
+            </ul>
+          </div>
+
+          <button onclick="openWhatsAppDirect('Paket POS Standar (Rp 2.5 Jt)')" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-700 transition">
+            Pilih Paket POS Standar
+          </button>
+        </div>
+
+        <!-- Package 2: SIM SEKOLAH TERPADU (HIGHLIGHT) -->
+        <div class="p-8 rounded-2xl bg-slate-900 border-2 border-indigo-500 flex flex-col justify-between relative shadow-2xl shadow-indigo-500/20">
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-emerald-500 text-slate-950 font-bold text-xs uppercase tracking-wider">
+            Rekomendasi Institusi
+          </div>
+
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-400">Untuk Sekolah / Pesantren</span>
+            <h3 class="text-2xl font-bold text-white mt-1 mb-2">Paket SIM Sekolah Pintar</h3>
+            <p class="text-xs text-slate-400 mb-6">Digitalisasi total administrasi siswa, SPP, dan absensi.</p>
+            
+            <div class="mb-6 pb-6 border-b border-slate-800">
+              <span class="text-xs text-slate-400 block">Investasi Mulai Dari</span>
+              <span class="text-3xl font-extrabold text-white">Rp 5.500.000</span>
+              <span class="text-xs text-indigo-400 font-semibold block mt-1">✓ Termasuk Setup Server Cloud 1 Tahun</span>
+            </div>
+
+            <ul class="space-y-3 text-xs text-slate-300 mb-8">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Modul PPDB Online + Seleksi Berkas</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Presensi QR Code Guru &amp; Siswa</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Tagihan SPP + Integrasi WhatsApp Gateway</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Format e-Rapor Kumer / K13</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Cetak Kartu Pelajar Barcode</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Pelatihan guru/admin &amp; garansi 6 bulan</li>
+            </ul>
+          </div>
+
+          <button onclick="openWhatsAppDirect('Paket SIM Sekolah Pintar (Rp 5.5 Jt)')" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition">
+            Pilih Paket SIM Sekolah
+          </button>
+        </div>
+
+        <!-- Package 3: CUSTOM ENTERPRISE -->
+        <div class="p-8 rounded-2xl bg-slate-900/90 border border-slate-800 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Untuk Bisnis Skala Besar / Khusus</span>
+            <h3 class="text-2xl font-bold text-white mt-1 mb-2">Paket Custom Penuh</h3>
+            <p class="text-xs text-slate-400 mb-6">Arsitektur kustom, multi-cabang, dan aplikasi Android.</p>
+            
+            <div class="mb-6 pb-6 border-b border-slate-800">
+              <span class="text-xs text-slate-400 block">Investasi</span>
+              <span class="text-3xl font-extrabold text-white">Negosiasi Kustom</span>
+              <span class="text-xs text-cyan-400 font-semibold block mt-1">✓ Berdasarkan Scope of Work (SOW)</span>
+            </div>
+
+            <ul class="space-y-3 text-xs text-slate-300 mb-8">
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Desain UI/UX eksklusif sesuai branding</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Fitur POS multi-cabang / multi-gudang</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Aplikasi Mobile Android (APK)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Integrasi API pihak ketiga (Payment/Ekspedisi)</li>
+              <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-400"></i> Full Source Code &amp; Dedicated Support</li>
+            </ul>
+          </div>
+
+          <button onclick="openWhatsAppDirect('Paket Custom Enterprise')" class="w-full py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-slate-700 transition">
+            Diskusikan Kebutuhan Kustom
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       8. INTERACTIVE PROJECT ESTIMATOR & WHATSAPP GENERATOR
+       ========================================================================= -->
+  <section id="estimator" class="py-24 relative overflow-hidden">
+    <!-- Glow element -->
+    <div class="absolute bottom-0 right-1/4 w-[500px] h-[300px] bg-indigo-600/10 blur-[130px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 px-3.5 py-1 rounded-full border border-emerald-500/20">
+          Kalkulator Kebutuhan Instan
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-3">
+          Rangkum Kebutuhan &amp; Dapatkan Penawaran
+        </h2>
+        <p class="text-slate-400 text-sm">
+          Pilih fitur yang Anda inginkan di bawah ini, lalu klik kirim untuk langsung konsultasi ke WhatsApp kami dengan rincian yang sudah tersusun rapi.
+        </p>
+      </div>
+
+      <!-- Estimator Box Form -->
+      <div class="p-8 sm:p-10 rounded-3xl bg-slate-900/90 border border-slate-800 shadow-2xl shadow-indigo-500/10">
+        <form id="lead-form" class="space-y-6">
+          
+          <!-- Category Select -->
+          <div>
+            <label for="est-app-type" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+              1. Pilih Kategori Sistem / Aplikasi
+            </label>
+            <select id="est-app-type" class="w-full px-4 py-3.5 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:outline-none focus:border-indigo-500 transition">
+              <option value="pos">Aplikasi Kasir / Point of Sale (POS)</option>
+              <option value="school">Sistem Informasi Sekolah (SIMS / E-Sekolah)</option>
+              <option value="custom">Aplikasi Kustom / Web &amp; Mobile Khusus</option>
+            </select>
+          </div>
+
+          <!-- Features Checklist Container (Rendered dynamically by JS) -->
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-2">
+              2. Centang Fitur yang Anda Butuhkan
+            </label>
+            <div id="est-features-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+              <!-- Checkboxes inserted here via main.js -->
+            </div>
+          </div>
+
+          <!-- Contact Inputs -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-slate-800">
+            <div>
+              <label for="lead-name" class="block text-xs font-semibold text-slate-300 mb-1.5">Nama Anda</label>
+              <input type="text" id="lead-name" required placeholder="Contoh: Pak Budi / Bu Rina" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:outline-none focus:border-indigo-500 placeholder:text-slate-600" />
+            </div>
+            <div>
+              <label for="lead-org" class="block text-xs font-semibold text-slate-300 mb-1.5">Nama Toko / Sekolah / Bisnis</label>
+              <input type="text" id="lead-org" required placeholder="Contoh: Kopi Senja / SMA Nusantara" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:outline-none focus:border-indigo-500 placeholder:text-slate-600" />
+            </div>
+          </div>
+
+          <div>
+            <label for="lead-notes" class="block text-xs font-semibold text-slate-300 mb-1.5">Catatan Tambahan (Opsional)</label>
+            <textarea id="lead-notes" rows="2" placeholder="Tuliskan jika ada alur khusus atau batas waktu pengerjaan yang diinginkan..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-700 text-white text-sm focus:outline-none focus:border-indigo-500 placeholder:text-slate-600"></textarea>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600 hover:from-emerald-500 hover:to-teal-400 text-white font-extrabold text-base shadow-xl shadow-emerald-600/25 transition transform hover:-translate-y-0.5 flex items-center justify-center gap-3">
+            <i class="fa-brands fa-whatsapp text-2xl"></i>
+            <span>Kirim &amp; Dapatkan Estimasi via WhatsApp</span>
+          </button>
+
+          <p class="text-center text-[11px] text-slate-500">
+            🔒 Pesan Anda otomatis tersusun rapi dan langsung diteruskan ke WhatsApp resmi kami tanpa perlu mengetik ulang.
+          </p>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       9. FAQ SECTION
+       ========================================================================= -->
+  <section id="faq" class="py-24 bg-slate-900/50 border-t border-slate-800/60 relative">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 bg-indigo-500/10 px-3.5 py-1 rounded-full border border-indigo-500/20">
+          Tanya Jawab Umum
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-4 mb-3">
+          Pertanyaan yang Sering Diajukan
+        </h2>
+        <p class="text-slate-400 text-sm">
+          Semua hal yang perlu Anda ketahui sebelum memulai kerja sama pembuatan aplikasi.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        
+        <!-- FAQ 1 -->
+        <div class="faq-item rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+          <button class="faq-question w-full p-5 text-left flex items-center justify-between font-bold text-sm sm:text-base text-white hover:text-indigo-400 transition">
+            <span>Berapa lama proses pembuatan aplikasinya?</span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-500 text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden border-t border-slate-800/60 pt-3">
+            Untuk paket POS Kasir standar biasanya memakan waktu <strong>7 hingga 14 hari kerja</strong>. Untuk Sistem Informasi Sekolah terpadu memakan waktu <strong>2 hingga 4 minggu</strong> tergantung banyaknya modul (PPDB, rapor, SPP). Sedangkan untuk aplikasi kustom skala besar disesuaikan dengan dokumen spesifikasi.
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+          <button class="faq-question w-full p-5 text-left flex items-center justify-between font-bold text-sm sm:text-base text-white hover:text-indigo-400 transition">
+            <span>Apakah sistem ini sistem beli lepas atau harus bayar bulanan?</span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-500 text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden border-t border-slate-800/60 pt-3">
+            Sistem kami berbasis <strong>Beli Lepas (Sekali Bayar)</strong>! Anda tidak dikenakan biaya sewa software bulanan. Biaya di tahun berikutnya hanyalah perpanjangan nama domain dan sewa server cloud hosting yang sangat terjangkau.
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+          <button class="faq-question w-full p-5 text-left flex items-center justify-between font-bold text-sm sm:text-base text-white hover:text-indigo-400 transition">
+            <span>Apakah kasir bisa digunakan tanpa koneksi internet (offline)?</span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-500 text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden border-t border-slate-800/60 pt-3">
+            Bisa! Kami menyediakan opsi aplikasi kasir yang dapat dipasang langsung di komputer kasir toko (Local Server / Offline First) sehingga transaksi tetap lancar meskipun internet sedang gangguan, dan data akan disinkronkan saat online.
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+          <button class="faq-question w-full p-5 text-left flex items-center justify-between font-bold text-sm sm:text-base text-white hover:text-indigo-400 transition">
+            <span>Bagaimana jika staf kasir atau admin sekolah kami belum terbiasa dengan komputer?</span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-500 text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden border-t border-slate-800/60 pt-3">
+            Tenang saja! Desain antarmuka kami dibuat sangat intuitif seperti menggunakan HP sehari-hari. Selain itu, kami menyertakan sesi pelatihan intensif langsung dan buku panduan bergambar/video tutorial langkah-demi-langkah.
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item rounded-xl bg-slate-900 border border-slate-800 overflow-hidden">
+          <button class="faq-question w-full p-5 text-left flex items-center justify-between font-bold text-sm sm:text-base text-white hover:text-indigo-400 transition">
+            <span>Apakah kami mendapatkan hak akses dan garansi setelah selesai?</span>
+            <i class="fa-solid fa-chevron-down faq-icon text-slate-500 text-xs transition-transform duration-300"></i>
+          </button>
+          <div class="faq-answer px-5 pb-5 text-xs sm:text-sm text-slate-300 leading-relaxed hidden border-t border-slate-800/60 pt-3">
+            Tentu saja! Anda akan menerima seluruh kredensial admin server, database, dan hak akses penuh. Kami juga memberikan <strong>Garansi Bebas Bug</strong> selama 3 hingga 6 bulan penuh untuk memastikan sistem berjalan stabil.
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       10. FINAL CALL TO ACTION
+       ========================================================================= -->
+  <section class="py-20 relative bg-gradient-to-b from-slate-950 via-indigo-950/40 to-slate-950">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div class="p-10 sm:p-14 rounded-3xl bg-gradient-to-r from-indigo-900/60 to-slate-900/90 border border-indigo-500/30 shadow-2xl relative overflow-hidden">
+        
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+          Siap Meningkatkan Kualitas Sistem Bisnis &amp; Sekolah Anda?
+        </h2>
+        <p class="text-slate-300 text-base max-w-2xl mx-auto mb-8">
+          Diskusikan kebutuhan aplikasi Anda bersama tim developer kami sekarang. Konsultasi 100% gratis tanpa ikatan.
+        </p>
+
+        <button onclick="openWhatsAppDirect('Halo Vega MediaPro, saya ingin konsultasi langsung untuk project aplikasi saya')" class="inline-flex items-center gap-3 px-9 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-base shadow-xl shadow-emerald-500/30 transition transform hover:-translate-y-0.5">
+          <i class="fa-brands fa-whatsapp text-2xl"></i>
+          <span>Hubungi Tim Developer via WhatsApp</span>
+        </button>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       11. FOOTER
+       ========================================================================= -->
+  <footer class="py-12 bg-slate-950 border-t border-slate-900 text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white font-bold">
+          <i class="fa-solid fa-code text-sm"></i>
+        </div>
+        <div>
+          <span class="text-sm font-bold text-white">Vega MediaPro</span>
+          <p class="text-[11px] text-slate-500">Jasa Pembuatan Software, POS Kasir &amp; Sistem Informasi Sekolah</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-6 text-slate-400">
+        <a href="#beranda" class="hover:text-white transition">Beranda</a>
+        <a href="#layanan" class="hover:text-white transition">Layanan</a>
+        <a href="#harga" class="hover:text-white transition">Paket Biaya</a>
+        <a href="#estimator" class="hover:text-white transition">Kalkulator</a>
+        <a href="#faq" class="hover:text-white transition">FAQ</a>
+      </div>
+
+      <div class="text-slate-500 text-center sm:text-right">
+        &copy; 2026 Vega MediaPro. Seluruh Hak Cipta Dilindungi.
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- =========================================================================
+       12. FLOATING WHATSAPP BUTTON (ALWAYS ACCESSIBLE)
+       ========================================================================= -->
+  <div class="fixed bottom-6 right-6 z-50 flex items-center gap-3">
+    <!-- Bubble helper badge on desktop -->
+    <div class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-900/90 border border-slate-800 text-xs font-semibold text-slate-200 shadow-xl backdrop-blur-md">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-active"></span>
+      <span>Tanya Developer (Online)</span>
+    </div>
+
+    <!-- The Floating Button -->
+    <button onclick="openWhatsAppDirect('Tanya Jasa Pembuatan Aplikasi')" class="w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-500 to-emerald-600 hover:from-emerald-400 hover:to-emerald-500 text-white flex items-center justify-center text-2xl shadow-xl shadow-emerald-500/40 hover:scale-110 transition transform" aria-label="Hubungi WhatsApp">
+      <i class="fa-brands fa-whatsapp"></i>
+    </button>
+  </div>
+
+
+  <!-- Custom JavaScript -->
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
