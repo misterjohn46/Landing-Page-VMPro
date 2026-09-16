@@ -1,0 +1,9 @@
+# Konfigurasi GitHub Pages
+#
+# GitHub Pages bersifat statis dan TIDAK mengeksekusi PHP — file .php akan
+# disajikan sebagai source code mentah yang bisa diunduh siapa pun.
+# Daftar di bawah mencegah file server-side ikut dipublikasikan ke domain publik.
+exclude:
+  - server/
+  - index.php
+  - README.md

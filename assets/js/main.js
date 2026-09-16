@@ -256,36 +256,66 @@ function initSmoothScroll() {
 }
 
 /* =========================================================================
-   7. DUITKU SANDBOX CHECKOUT MODAL & SIMULATION
+   7. MODAL KONFIRMASI PESANAN -> WHATSAPP
+   -------------------------------------------------------------------------
+   Halaman ini TIDAK memproses pembayaran. Alurnya: pengunjung mengisi data
+   pesanan, memeriksa ringkasannya, lalu mengirimkannya ke WhatsApp admin.
+   Invoice dan instruksi pembayaran dikirim manual oleh tim setelah itu.
    ========================================================================= */
-let currentCheckoutItem = { name: "Paket POS Standar", price: 2500000 };
+let currentOrder = {
+  packageName: "Paket POS Standar",
+  price: 2500000,
+  invoice: "",
+  name: "",
+  email: "",
+  phone: "",
+  method: "",
+};
 
-window.openCheckoutModal = function(packageName, price) {
-  currentCheckoutItem = { name: packageName, price: price };
-  const modal = document.getElementById("checkout-modal");
-  const modalTitle = document.getElementById("checkout-item-title");
-  const modalPrice = document.getElementById("checkout-item-price");
+function formatRupiah(value) {
+  return "Rp " + Number(value).toLocaleString("id-ID");
+}
+
+function generateInvoiceCode() {
+  return "VMP-" + Math.floor(100000 + Math.random() * 900000);
+}
+
+function showCheckoutStep(stepId) {
+  ["checkout-step-form", "checkout-step-summary", "checkout-step-sent"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.classList.toggle("hidden", id !== stepId);
+  });
+}
+
+window.openCheckoutModal = function (packageName, price) {
+  currentOrder = {
+    packageName: packageName,
+    price: price,
+    invoice: generateInvoiceCode(),
+    name: "",
+    email: "",
+    phone: "",
+    method: "",
+  };
+
+  const itemTitle = document.getElementById("checkout-item-title");
+  const itemPrice = document.getElementById("checkout-item-price");
   const invoiceCode = document.getElementById("checkout-invoice-code");
-  
-  if (modalTitle) modalTitle.textContent = packageName;
-  if (modalPrice) modalPrice.textContent = "Rp " + price.toLocaleString("id-ID");
-  if (invoiceCode) invoiceCode.textContent = "VMP-" + Math.floor(100000 + Math.random() * 900000);
-  
-  // Reset step views
-  const stepForm = document.getElementById("checkout-step-form");
-  const stepPay = document.getElementById("checkout-step-payment");
-  const stepSuccess = document.getElementById("checkout-step-success");
-  if (stepForm) stepForm.classList.remove("hidden");
-  if (stepPay) stepPay.classList.add("hidden");
-  if (stepSuccess) stepSuccess.classList.add("hidden");
 
+  if (itemTitle) itemTitle.textContent = packageName;
+  if (itemPrice) itemPrice.textContent = formatRupiah(price);
+  if (invoiceCode) invoiceCode.textContent = currentOrder.invoice;
+
+  showCheckoutStep("checkout-step-form");
+
+  const modal = document.getElementById("checkout-modal");
   if (modal) {
     modal.classList.remove("hidden");
     document.body.style.overflow = "hidden";
   }
 };
 
-window.closeCheckoutModal = function() {
+window.closeCheckoutModal = function () {
   const modal = document.getElementById("checkout-modal");
   if (modal) {
     modal.classList.add("hidden");
@@ -293,24 +323,55 @@ window.closeCheckoutModal = function() {
   }
 };
 
-window.processCheckoutToPayment = function(e) {
+window.processCheckoutToSummary = function (e) {
   if (e) e.preventDefault();
-  const method = document.querySelector('input[name="payment-method"]:checked')?.value || "QRIS";
 
-  // Switch to payment view
-  document.getElementById("checkout-step-form")?.classList.add("hidden");
-  document.getElementById("checkout-step-payment")?.classList.remove("hidden");
+  currentOrder.name = (document.getElementById("checkout-cust-name")?.value || "").trim();
+  currentOrder.email = (document.getElementById("checkout-cust-email")?.value || "").trim();
+  currentOrder.phone = (document.getElementById("checkout-cust-phone")?.value || "").trim();
+  currentOrder.method =
+    document.querySelector('input[name="payment-method"]:checked')?.value || "Belum dipilih";
 
-  const methodLabel = document.getElementById("payment-method-selected");
-  if (methodLabel) methodLabel.textContent = method;
+  // textContent (bukan innerHTML) supaya input pengunjung tidak pernah dieksekusi sebagai HTML.
+  const fields = {
+    "summary-invoice": currentOrder.invoice,
+    "summary-package": currentOrder.packageName,
+    "summary-price": formatRupiah(currentOrder.price),
+    "summary-name": currentOrder.name,
+    "summary-email": currentOrder.email,
+    "summary-phone": currentOrder.phone,
+    "summary-method": currentOrder.method,
+  };
+  Object.keys(fields).forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = fields[id];
+  });
 
-  const payAmount = document.getElementById("payment-amount-display");
-  if (payAmount) payAmount.textContent = "Rp " + currentCheckoutItem.price.toLocaleString("id-ID");
+  showCheckoutStep("checkout-step-summary");
 };
 
-window.simulatePaymentSuccess = function() {
-  document.getElementById("checkout-step-payment")?.classList.add("hidden");
-  document.getElementById("checkout-step-success")?.classList.remove("hidden");
+window.backToCheckoutForm = function () {
+  showCheckoutStep("checkout-step-form");
+};
+
+window.sendOrderToWhatsApp = function () {
+  let message = `Halo Vega MediaPro, saya ingin memesan layanan berikut:\n\n`;
+  message += `🧾 *Kode Pesanan:* ${currentOrder.invoice}\n`;
+  message += `📦 *Paket:* ${currentOrder.packageName}\n`;
+  message += `💰 *Estimasi Biaya:* ${formatRupiah(currentOrder.price)}\n\n`;
+  message += `👤 *Nama / Instansi:* ${currentOrder.name}\n`;
+  message += `📧 *Email:* ${currentOrder.email}\n`;
+  message += `📱 *WhatsApp:* ${currentOrder.phone}\n`;
+  message += `💳 *Preferensi Pembayaran:* ${currentOrder.method}\n\n`;
+  message += `Mohon kirimkan invoice resmi beserta instruksi pembayarannya. Terima kasih!`;
+
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+  window.open(waUrl, "_blank");
+
+  const sentInvoice = document.getElementById("sent-invoice");
+  if (sentInvoice) sentInvoice.textContent = currentOrder.invoice;
+
+  showCheckoutStep("checkout-step-sent");
 };
 
 /* =========================================================================
@@ -323,7 +384,7 @@ const legalContents = {
       <p class="mb-3">Selamat datang di <strong>Vega MediaPro</strong>. Dengan memesan layanan jasa pembuatan aplikasi kami, Anda menyetujui ketentuan berikut:</p>
       <ul class="list-disc pl-5 space-y-2 mb-3">
         <li><strong>Ruang Lingkup:</strong> Vega MediaPro menyediakan jasa pembuatan software kustom (POS Kasir, Sistem Informasi Sekolah, dan Web/Mobile App) sesuai kesepakatan spesifikasi awal (Scope of Work).</li>
-        <li><strong>Sistem Pembayaran:</strong> Pembayaran dapat dilakukan secara bertahap (DP minimal 30% - 50% di awal) melalui gateway pembayaran resmi Duitku atau transfer bank, dan pelunasan saat sistem selesai diuji coba.</li>
+        <li><strong>Sistem Pembayaran:</strong> Pembayaran dapat dilakukan secara bertahap (DP minimal 30% - 50% di awal) melalui transfer bank atau QRIS sesuai invoice resmi yang kami kirimkan, dan pelunasan saat sistem selesai diuji coba.</li>
         <li><strong>Hak Cipta & Kepemilikan:</strong> Setelah pelunasan, klien berhak atas akses penuh dan pemanfaatan sistem sesuai perjanjian lisensi.</li>
         <li><strong>Garansi:</strong> Kami memberikan garansi perbaikan bug dan error gratis selama 3 hingga 6 bulan sejak tanggal serah terima.</li>
       </ul>
@@ -336,7 +397,7 @@ const legalContents = {
       <ul class="list-disc pl-5 space-y-2 mb-3">
         <li><strong>Pengumpulan Data:</strong> Kami hanya mengumpulkan informasi yang relevan seperti Nama, Kontak WhatsApp, Email, dan Alamat Usaha untuk keperluan pemesanan serta penagihan invoice.</li>
         <li><strong>Keamanan Data:</strong> Kami tidak pernah menjual atau membagikan data Anda kepada pihak luar tanpa persetujuan Anda.</li>
-        <li><strong>Pemrosesan Pembayaran:</strong> Transaksi online diproses aman melalui mitra payment gateway berizin resmi Bank Indonesia (Duitku) menggunakan enkripsi SSL standar perbankan.</li>
+        <li><strong>Pemrosesan Pembayaran:</strong> Halaman ini tidak memproses pembayaran maupun menyimpan data kartu. Pembayaran dilakukan melalui transfer bank atau QRIS sesuai invoice resmi yang kami kirimkan.</li>
       </ul>
     `
   },
