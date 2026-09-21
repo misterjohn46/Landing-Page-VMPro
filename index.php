@@ -78,7 +78,7 @@ $email_contact  = "kontak@vegamediapro.com";
       </a>
 
       <!-- Desktop Nav Menu -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+      <nav class="hidden xl:flex items-center gap-6 text-sm font-medium text-slate-300 whitespace-nowrap">
         <a href="#beranda" class="hover:text-indigo-400 transition">Beranda</a>
         <a href="#layanan" class="hover:text-indigo-400 transition">Layanan Unggulan</a>
         <a href="#showcase" class="hover:text-indigo-400 transition">Demo Aplikasi</a>
@@ -89,7 +89,7 @@ $email_contact  = "kontak@vegamediapro.com";
       </nav>
 
       <!-- CTA Button Desktop -->
-      <div class="hidden md:flex items-center gap-4">
+      <div class="hidden xl:flex items-center gap-4">
         <button onclick="openWhatsAppDirect('Konsultasi Umum Pembuatan Aplikasi')" class="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 hover:shadow-indigo-600/50 transition transform hover:-translate-y-0.5">
           <i class="fa-brands fa-whatsapp text-emerald-400 text-lg"></i>
           <span>Konsultasi Gratis</span>
@@ -97,7 +97,7 @@ $email_contact  = "kontak@vegamediapro.com";
       </div>
 
       <!-- Mobile Menu Button -->
-      <div class="md:hidden flex items-center">
+      <div class="xl:hidden flex items-center">
         <button id="mobile-menu-btn" class="p-2.5 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-white focus:outline-none" aria-label="Menu">
           <span id="menu-icon">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -109,7 +109,7 @@ $email_contact  = "kontak@vegamediapro.com";
     </div>
 
     <!-- Mobile Dropdown Menu -->
-    <div id="mobile-menu" class="hidden md:hidden px-4 pt-2 pb-6 bg-slate-950 border-b border-slate-800 space-y-3">
+    <div id="mobile-menu" class="hidden xl:hidden px-4 pt-2 pb-6 bg-slate-950 border-b border-slate-800 space-y-3">
       <a href="#beranda" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Beranda</a>
       <a href="#layanan" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Layanan Unggulan</a>
       <a href="#showcase" class="block px-3 py-2 rounded-lg text-slate-200 hover:bg-slate-900 font-medium">Demo Aplikasi</a>
@@ -835,7 +835,7 @@ $email_contact  = "kontak@vegamediapro.com";
 
           <div class="space-y-2">
             <button onclick="openCheckoutModal('Paket POS Standar (DP/Full)', 2500000)" class="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/20 transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-credit-card"></i> Bayar Online (Sandbox Duitku)
+              <i class="fa-solid fa-file-invoice"></i> Pesan Sekarang
             </button>
             <button onclick="openWhatsAppDirect('Paket POS Standar (Rp 2.5 Jt)')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-1.5">
               <i class="fa-brands fa-whatsapp text-emerald-400"></i> Konsultasi via WhatsApp
@@ -872,7 +872,7 @@ $email_contact  = "kontak@vegamediapro.com";
 
           <div class="space-y-2">
             <button onclick="openCheckoutModal('Paket SIM Sekolah Pintar (DP/Full)', 5500000)" class="w-full py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-credit-card"></i> Bayar Online (Sandbox Duitku)
+              <i class="fa-solid fa-file-invoice"></i> Pesan Sekarang
             </button>
             <button onclick="openWhatsAppDirect('Paket SIM Sekolah Pintar (Rp 5.5 Jt)')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-1.5">
               <i class="fa-brands fa-whatsapp text-emerald-400"></i> Konsultasi via WhatsApp
@@ -904,7 +904,7 @@ $email_contact  = "kontak@vegamediapro.com";
 
           <div class="space-y-2">
             <button onclick="openCheckoutModal('DP Pemesanan Aplikasi Kustom', 1000000)" class="w-full py-3.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/20 transition flex items-center justify-center gap-2">
-              <i class="fa-solid fa-credit-card"></i> Bayar DP Online (Sandbox Duitku)
+              <i class="fa-solid fa-file-invoice"></i> Pesan Sekarang (DP)
             </button>
             <button onclick="openWhatsAppDirect('Paket Custom Enterprise')" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-1.5">
               <i class="fa-brands fa-whatsapp text-emerald-400"></i> Diskusikan via WhatsApp
@@ -1104,7 +1104,7 @@ $email_contact  = "kontak@vegamediapro.com";
 
 
   <!-- =========================================================================
-       11. FOOTER & KONTAK LEGALITAS USAHA (DUITKU COMPLIANCE)
+       11. FOOTER & KONTAK LEGALITAS USAHA
        ========================================================================= -->
   <footer class="py-16 bg-slate-950 border-t border-slate-900 text-slate-400 text-xs">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1170,14 +1170,14 @@ $email_contact  = "kontak@vegamediapro.com";
         <div class="space-y-3">
           <h4 class="text-sm font-bold text-white uppercase tracking-wider">Metode Pembayaran</h4>
           <p class="text-[11px] text-slate-400">
-            Menerima pembayaran resmi melalui Payment Gateway <strong>Duitku</strong> (Diawasi Bank Indonesia):
+            Pembayaran dilakukan lewat invoice resmi yang kami kirimkan. Kanal yang tersedia:
           </p>
           <div class="flex flex-wrap gap-2 pt-1">
             <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">QRIS</span>
-            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">BCA VA</span>
-            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">Mandiri VA</span>
-            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">BNI VA</span>
-            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">BRI VA</span>
+            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">Transfer BCA</span>
+            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">Transfer Mandiri</span>
+            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">Transfer BNI</span>
+            <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">Transfer BRI</span>
             <span class="px-2 py-1 bg-slate-900 border border-slate-800 rounded text-[10px] text-slate-300 font-bold">ShopeePay</span>
           </div>
         </div>
@@ -1218,118 +1218,159 @@ $email_contact  = "kontak@vegamediapro.com";
 
 
   <!-- =========================================================================
-       13. CHECKOUT MODAL (DUITKU SANDBOX INTEGRATION)
+       13. MODAL KONFIRMASI PESANAN
        ========================================================================= -->
-  <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden">
-    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative">
-      
+  <div id="checkout-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md hidden" role="dialog" aria-modal="true" aria-labelledby="checkout-modal-title">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 sm:p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+
       <!-- Close Button -->
-      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2">
+      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-2" aria-label="Tutup formulir pesanan">
         <i class="fa-solid fa-xmark text-lg"></i>
       </button>
 
-      <!-- Step 1: Form Checkout -->
+      <!-- Step 1: Formulir Data Pesanan -->
       <div id="checkout-step-form">
         <div class="flex items-center gap-2 mb-4">
-          <span class="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
-            Sandbox Duitku Gateway
+          <span class="px-2.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 text-[10px] font-bold uppercase tracking-wider">
+            Formulir Pesanan
           </span>
-          <span class="text-slate-500 text-xs">•</span>
-          <span id="checkout-invoice-code" class="text-xs font-mono text-slate-400 font-semibold">VMP-892102</span>
+          <span class="text-slate-500 text-xs">&bull;</span>
+          <span id="checkout-invoice-code" class="text-xs font-mono text-slate-400 font-semibold">VMP-000000</span>
         </div>
 
-        <h3 class="text-xl font-bold text-white mb-1">Checkout &amp; Pembayaran DP</h3>
-        <p class="text-xs text-slate-400 mb-6">Silakan lengkapi data pemesanan di bawah ini:</p>
+        <h3 id="checkout-modal-title" class="text-xl font-bold text-white mb-1">Konfirmasi Pesanan</h3>
+        <p class="text-xs text-slate-400 mb-6">
+          Lengkapi data di bawah ini. Tim kami akan mengirimkan invoice resmi beserta instruksi pembayaran setelah pesanan Anda kami terima.
+        </p>
 
         <!-- Item Box -->
-        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between mb-5">
+        <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between gap-3 mb-5">
           <div>
             <span id="checkout-item-title" class="font-bold text-white text-sm block">Paket POS Standar</span>
             <span class="text-[11px] text-indigo-400">Jasa Pembuatan Software</span>
           </div>
-          <span id="checkout-item-price" class="text-base font-extrabold text-emerald-400">Rp 2.500.000</span>
+          <span id="checkout-item-price" class="text-base font-extrabold text-emerald-400 whitespace-nowrap">Rp 2.500.000</span>
         </div>
 
-        <form onsubmit="processCheckoutToPayment(event)" class="space-y-4">
+        <form onsubmit="processCheckoutToSummary(event)" class="space-y-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-1">Nama Pemesan / Instansi</label>
-            <input type="text" id="checkout-cust-name" required placeholder="Contoh: Budi Santoso" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-indigo-500" />
+            <label for="checkout-cust-name" class="block text-xs font-semibold text-slate-300 mb-1">Nama Pemesan / Instansi</label>
+            <input type="text" id="checkout-cust-name" required minlength="3" placeholder="Contoh: Budi Santoso" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-indigo-500" />
           </div>
 
-          <div class="grid grid-cols-2 gap-3">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Email</label>
-              <input type="email" id="checkout-cust-email" required placeholder="johndanulfa@gmail.com" value="johndanulfa@gmail.com" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-indigo-500" />
+              <label for="checkout-cust-email" class="block text-xs font-semibold text-slate-300 mb-1">Email</label>
+              <input type="email" id="checkout-cust-email" required placeholder="nama@email.com" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-indigo-500" />
             </div>
             <div>
-              <label class="block text-xs font-semibold text-slate-300 mb-1">Nomor WhatsApp</label>
-              <input type="tel" id="checkout-cust-phone" required placeholder="<?php echo $whatsapp_num; ?>" value="<?php echo $whatsapp_num; ?>" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-indigo-500" />
+              <label for="checkout-cust-phone" class="block text-xs font-semibold text-slate-300 mb-1">Nomor WhatsApp</label>
+              <input type="tel" id="checkout-cust-phone" required inputmode="numeric" placeholder="08xxxxxxxxxx" class="w-full px-3.5 py-2.5 rounded-lg bg-slate-950 border border-slate-700 text-white text-xs focus:outline-none focus:border-indigo-500" />
             </div>
           </div>
 
-          <div>
-            <label class="block text-xs font-semibold text-slate-300 mb-2">Pilih Jalur Pembayaran (Sandbox Duitku)</label>
-            <div class="grid grid-cols-2 gap-2 text-xs">
+          <fieldset>
+            <legend class="block text-xs font-semibold text-slate-300 mb-2">Metode Pembayaran yang Anda Inginkan</legend>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
               <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500 cursor-pointer">
-                <input type="radio" name="payment-method" value="QRIS" checked class="text-indigo-600 focus:ring-0" />
-                <span class="font-semibold text-white">QRIS (All E-Wallet)</span>
+                <input type="radio" name="payment-method" value="QRIS / E-Wallet" checked class="text-indigo-600 focus:ring-0" />
+                <span class="font-semibold text-white">QRIS / E-Wallet</span>
               </label>
               <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500 cursor-pointer">
-                <input type="radio" name="payment-method" value="Virtual Account BCA" class="text-indigo-600 focus:ring-0" />
-                <span class="font-semibold text-white">BCA Virtual Account</span>
+                <input type="radio" name="payment-method" value="Transfer Bank BCA" class="text-indigo-600 focus:ring-0" />
+                <span class="font-semibold text-white">Transfer BCA</span>
               </label>
               <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500 cursor-pointer">
-                <input type="radio" name="payment-method" value="Virtual Account Mandiri" class="text-indigo-600 focus:ring-0" />
-                <span class="font-semibold text-white">Mandiri VA</span>
+                <input type="radio" name="payment-method" value="Transfer Bank Mandiri" class="text-indigo-600 focus:ring-0" />
+                <span class="font-semibold text-white">Transfer Mandiri</span>
               </label>
               <label class="flex items-center gap-2 p-2.5 rounded-lg bg-slate-950 border border-slate-800 hover:border-indigo-500 cursor-pointer">
-                <input type="radio" name="payment-method" value="Virtual Account BRI" class="text-indigo-600 focus:ring-0" />
-                <span class="font-semibold text-white">BRI VA</span>
+                <input type="radio" name="payment-method" value="Transfer Bank BRI" class="text-indigo-600 focus:ring-0" />
+                <span class="font-semibold text-white">Transfer BRI</span>
               </label>
             </div>
-          </div>
+            <p class="text-[11px] text-slate-500 mt-2">
+              Ini hanya preferensi Anda. Nomor rekening atau QRIS resmi akan kami kirimkan bersama invoice.
+            </p>
+          </fieldset>
 
           <button type="submit" class="w-full mt-4 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30 transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-lock text-emerald-400"></i>
-            <span>Lanjutkan ke Payment Sandbox Duitku</span>
+            <i class="fa-solid fa-arrow-right"></i>
+            <span>Lihat Ringkasan Pesanan</span>
           </button>
         </form>
       </div>
 
-      <!-- Step 2: Payment Simulator (Sandbox Interface) -->
-      <div id="checkout-step-payment" class="hidden text-center py-4">
-        <div class="w-12 h-12 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto mb-3 text-xl">
-          <i class="fa-solid fa-qrcode"></i>
+      <!-- Step 2: Ringkasan & Kirim ke WhatsApp -->
+      <div id="checkout-step-summary" class="hidden">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="px-2.5 py-0.5 rounded bg-emerald-500/20 text-emerald-400 text-[10px] font-bold uppercase tracking-wider">
+            Ringkasan Pesanan
+          </span>
+          <span class="text-slate-500 text-xs">&bull;</span>
+          <span id="summary-invoice" class="text-xs font-mono text-slate-400 font-semibold">VMP-000000</span>
         </div>
-        <h4 class="text-lg font-bold text-white mb-1">Simulasi Pembayaran Duitku Sandbox</h4>
-        <p class="text-xs text-slate-400 mb-4">Metode yang dipilih: <strong id="payment-method-selected" class="text-indigo-300">QRIS</strong></p>
 
-        <!-- QRIS Simulator -->
-        <div class="p-6 rounded-xl bg-white max-w-xs mx-auto mb-4 text-slate-900 shadow-inner">
-          <p class="text-[10px] font-mono text-slate-600 uppercase font-bold mb-2">Scan QRIS (Duitku Sandbox)</p>
-          <div class="w-40 h-40 bg-slate-100 border-2 border-dashed border-slate-400 rounded-lg mx-auto flex items-center justify-center text-slate-500 text-xs">
-            <div class="text-center">
-              <i class="fa-solid fa-qrcode text-5xl mb-2 text-slate-800"></i>
-              <p class="font-mono text-[10px] text-slate-700">Duitku Sandbox QR</p>
-            </div>
+        <h4 class="text-lg font-bold text-white mb-1">Periksa Data Pesanan Anda</h4>
+        <p class="text-xs text-slate-400 mb-5">Pastikan data berikut sudah benar sebelum dikirim ke tim kami.</p>
+
+        <dl class="rounded-xl bg-slate-950 border border-slate-800 divide-y divide-slate-800 text-xs mb-4">
+          <div class="flex items-start justify-between gap-3 p-3.5">
+            <dt class="text-slate-400 font-medium">Paket</dt>
+            <dd id="summary-package" class="text-white font-bold text-right">-</dd>
           </div>
-          <p id="payment-amount-display" class="font-extrabold text-base text-slate-900 mt-3">Rp 2.500.000</p>
+          <div class="flex items-start justify-between gap-3 p-3.5">
+            <dt class="text-slate-400 font-medium">Estimasi Biaya</dt>
+            <dd id="summary-price" class="text-emerald-400 font-extrabold text-right whitespace-nowrap">-</dd>
+          </div>
+          <div class="flex items-start justify-between gap-3 p-3.5">
+            <dt class="text-slate-400 font-medium">Nama / Instansi</dt>
+            <dd id="summary-name" class="text-white font-semibold text-right break-words">-</dd>
+          </div>
+          <div class="flex items-start justify-between gap-3 p-3.5">
+            <dt class="text-slate-400 font-medium">Email</dt>
+            <dd id="summary-email" class="text-white font-semibold text-right break-all">-</dd>
+          </div>
+          <div class="flex items-start justify-between gap-3 p-3.5">
+            <dt class="text-slate-400 font-medium">WhatsApp</dt>
+            <dd id="summary-phone" class="text-white font-semibold text-right">-</dd>
+          </div>
+          <div class="flex items-start justify-between gap-3 p-3.5">
+            <dt class="text-slate-400 font-medium">Preferensi Pembayaran</dt>
+            <dd id="summary-method" class="text-white font-semibold text-right">-</dd>
+          </div>
+        </dl>
+
+        <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-200/90 leading-relaxed mb-5 flex gap-2.5">
+          <i class="fa-solid fa-circle-info mt-0.5 text-amber-400"></i>
+          <span>
+            <strong class="text-amber-200">Belum ada pembayaran pada tahap ini.</strong>
+            Halaman ini hanya mengirimkan data pesanan Anda ke tim kami. Invoice resmi dan instruksi pembayaran akan dikirim melalui WhatsApp atau email.
+          </span>
         </div>
 
-        <button onclick="simulatePaymentSuccess()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
-          <i class="fa-solid fa-check"></i>
-          <span>Simulasi: Klik untuk Konfirmasi Berhasil (Sandbox)</span>
+        <button onclick="sendOrderToWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
+          <i class="fa-brands fa-whatsapp text-base"></i>
+          <span>Kirim Pesanan via WhatsApp</span>
+        </button>
+        <button onclick="backToCheckoutForm()" class="w-full mt-2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-pen"></i>
+          <span>Ubah Data</span>
         </button>
       </div>
 
-      <!-- Step 3: Success Screen -->
-      <div id="checkout-step-success" class="hidden text-center py-8">
+      <!-- Step 3: Pesanan Terkirim -->
+      <div id="checkout-step-sent" class="hidden text-center py-8">
         <div class="w-14 h-14 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4 text-2xl">
-          <i class="fa-solid fa-circle-check"></i>
+          <i class="fa-brands fa-whatsapp"></i>
         </div>
-        <h4 class="text-xl font-extrabold text-white mb-2">Pembayaran Berhasil Diterima!</h4>
-        <p class="text-xs text-slate-300 max-w-sm mx-auto mb-6 leading-relaxed">
-          Terima kasih! Transaksi simulasi Sandbox Anda telah berhasil diproses oleh sistem pembayaran Duitku. Tim Vega MediaPro akan segera menghubungi Anda.
+        <h4 class="text-xl font-extrabold text-white mb-2">Pesanan Anda Terkirim</h4>
+        <p class="text-xs text-slate-300 max-w-sm mx-auto mb-4 leading-relaxed">
+          Ringkasan pesanan sudah dibuka di WhatsApp. Silakan tekan tombol kirim pada aplikasi WhatsApp Anda agar pesanan masuk ke tim kami.
+        </p>
+        <p class="text-[11px] text-slate-400 max-w-sm mx-auto mb-6 leading-relaxed">
+          Kami akan membalas dengan invoice resmi dan instruksi pembayaran pada jam kerja. Kode pesanan Anda:
+          <strong id="sent-invoice" class="font-mono text-slate-200">VMP-000000</strong>
         </p>
         <button onclick="closeCheckoutModal()" class="px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-semibold transition">
           Tutup
@@ -1364,7 +1405,6 @@ $email_contact  = "kontak@vegamediapro.com";
 
 
   <!-- Custom JavaScript -->
-  <script src="assets/js/duitku-config.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
