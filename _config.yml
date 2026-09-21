@@ -5,5 +5,4 @@
 # Daftar di bawah mencegah file server-side ikut dipublikasikan ke domain publik.
 exclude:
   - server/
-  - index.php
   - README.md

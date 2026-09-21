@@ -3,8 +3,11 @@
  * Handlers: Mobile Menu, Tab Showcase, FAQ Accordion, WhatsApp Lead Generator
  */
 
-// Konfigurasi WhatsApp Admin (Otomatis mengambil dari PHP jika ada, atau fallback ke default)
-let WHATSAPP_NUMBER = (typeof PHP_WA_NUMBER !== "undefined" && PHP_WA_NUMBER) ? PHP_WA_NUMBER : "6282335338113"; 
+// Nomor WhatsApp admin — format internasional tanpa tanda "+" dan tanpa spasi.
+// Ini satu-satunya tempat mengubah nomor untuk semua tombol WhatsApp di halaman.
+// Catatan: tautan nomor pada footer index.html dan 404.html ditulis manual,
+// jadi perbarui juga kedua file itu bila nomor berganti.
+const WHATSAPP_NUMBER = "6282335338113";
 
 document.addEventListener("DOMContentLoaded", function () {
   initMobileMenu();
