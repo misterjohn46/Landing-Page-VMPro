@@ -2,6 +2,7 @@
 /**
  * DANA Enterprise Webhook / Finish Notify Handler
  * Endpoint: https://vegamediapro.web.id/api/dana-notify.php
+ * Also handles: /v1.0/debit/notify
  */
 
 header('Content-Type: application/json; charset=utf-8');
@@ -10,60 +11,40 @@ header('Content-Type: application/json; charset=utf-8');
 $rawInput = file_get_contents('php://input');
 $headers = getallheaders();
 
-// Catat log untuk keperluan audit dan debugging di Sandbox
+// Catat log untuk audit di Sandbox
 $logFile = __DIR__ . '/dana_notify.log';
-$logEntry = "[" . date('Y-m-d H:i:s') . "] IP: " . ($_SERVER['REMOTE_ADDR'] ?? 'UNKNOWN') . "\n";
-$logEntry .= "HEADERS: " . json_encode($headers) . "\n";
+$logEntry = "[" . date('Y-m-d H:i:s') . "] " . ($_SERVER['REQUEST_METHOD'] ?? 'POST') . " " . ($_SERVER['REQUEST_URI'] ?? '') . "\n";
 $logEntry .= "PAYLOAD: " . $rawInput . "\n";
 $logEntry .= "--------------------------------------------------------\n";
-file_put_contents($logFile, $logEntry, FILE_APPEND);
+@file_put_contents($logFile, $logEntry, FILE_APPEND);
 
-// Parse JSON payload jika ada
-$data = json_decode($rawInput, true);
-
-// Update status jika database sudah dikonfigurasi
+// Update status jika database aktif
 if (file_exists(__DIR__ . '/db.php')) {
     try {
         require_once __DIR__ . '/db.php';
+        $data = json_decode($rawInput, true);
         if (isset($pdo) && $data) {
-            // Tangkap nomor referensi / order ID
-            $transId = $data['merchantTransId'] ?? $data['originalPartnerReferenceNo'] ?? $data['orderId'] ?? null;
-            $status = $data['paymentStatus'] ?? $data['latestTransactionStatus'] ?? $data['status'] ?? 'SUCCESS';
+            $transId = $data['originalPartnerReferenceNo'] ?? $data['partnerReferenceNo'] ?? $data['merchantTransId'] ?? $data['orderId'] ?? null;
+            $status = $data['latestTransactionStatus'] ?? $data['paymentStatus'] ?? '00';
             
             if ($transId) {
                 $stmt = $pdo->prepare("UPDATE dana_transactions SET status = :status, raw_response = :raw, updated_at = NOW() WHERE order_id = :order_id");
                 $stmt->execute([
-                    ':status' => $status,
+                    ':status' => ($status === '05' ? 'CANCELLED' : ($status === '00' ? 'PAID' : $status)),
                     ':raw' => $rawInput,
                     ':order_id' => $transId
                 ]);
             }
         }
     } catch (Exception $e) {
-        error_log("DANA DB Error: " . $e->getMessage());
+        // Abaikan error DB agar respons webhook tetap 200 OK
     }
 }
 
-// Kembalikan respons standar sukses ke DANA (DANA Open API & SNAP BI kompatibel)
+// Kembalikan respons resmi SNAP BI yang diharapkan DANA
 http_response_code(200);
 echo json_encode([
     'responseCode' => '2005600',
-    'responseMessage' => 'Successful',
-    'response' => [
-        'head' => [
-            'version' => '2.0',
-            'function' => 'dana.payment.finishNotify',
-            'respTime' => date('Y-m-d\TH:i:sP'),
-            'status' => 'SUCCESS'
-        ],
-        'body' => [
-            'resultInfo' => [
-                'resultStatus' => 'S',
-                'resultCodeId' => '00000000',
-                'resultCode' => 'SUCCESS',
-                'resultMsg' => 'Success'
-            ]
-        ]
-    ]
-]);
+    'responseMessage' => 'Successful'
+], JSON_UNESCAPED_SLASHES);
 exit;
