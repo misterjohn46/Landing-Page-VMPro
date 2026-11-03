@@ -357,6 +357,46 @@ window.backToCheckoutForm = function () {
   showCheckoutStep("checkout-step-form");
 };
 
+window.processDanaPayment = async function () {
+  const btn = document.getElementById("btn-pay-dana");
+  const btnText = document.getElementById("btn-pay-dana-text");
+  const originalText = btnText ? btnText.textContent : "Bayar Online via DANA / QRIS";
+
+  try {
+    if (btn) btn.disabled = true;
+    if (btnText) btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menghubungkan ke DANA...';
+
+    const response = await fetch('/api/dana-checkout.php', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        packageName: currentOrder.packageName,
+        price: currentOrder.price,
+        name: currentOrder.name,
+        email: currentOrder.email,
+        phone: currentOrder.phone,
+        invoice: currentOrder.invoice
+      })
+    });
+
+    const result = await response.json();
+
+    if (result.status === 'success' && result.checkoutUrl) {
+      if (btnText) btnText.textContent = 'Membuka Halaman Pembayaran...';
+      window.location.href = result.checkoutUrl;
+    } else {
+      alert(result.message || 'Gagal memproses pembayaran DANA.');
+      if (btn) btn.disabled = false;
+      if (btnText) btnText.textContent = originalText;
+    }
+  } catch (err) {
+    console.error('DANA Checkout Error:', err);
+    window.location.href = `/payment-finish.html?order_id=${encodeURIComponent(currentOrder.invoice)}&amount=${encodeURIComponent(currentOrder.price)}&pkg=${encodeURIComponent(currentOrder.packageName)}`;
+  }
+};
+
 window.sendOrderToWhatsApp = function () {
   let message = `Halo Vega MediaPro, saya ingin memesan layanan berikut:\n\n`;
   message += `🧾 *Kode Pesanan:* ${currentOrder.invoice}\n`;

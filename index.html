@@ -1454,21 +1454,27 @@
           </div>
         </dl>
 
-        <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-200/90 leading-relaxed mb-5 flex gap-2.5">
-          <i class="fa-solid fa-circle-info mt-0.5 text-amber-400"></i>
+        <div class="p-3.5 rounded-xl bg-sky-500/10 border border-sky-500/30 text-[11px] text-sky-200/90 leading-relaxed mb-5 flex gap-2.5">
+          <i class="fa-solid fa-shield-halved mt-0.5 text-sky-400"></i>
           <span>
-            <strong class="text-amber-200">Belum ada pembayaran pada tahap ini.</strong>
-            Halaman ini hanya mengirimkan data pesanan Anda ke tim kami. Invoice resmi dan instruksi pembayaran akan dikirim melalui WhatsApp atau email.
+            <strong class="text-white">Pembayaran Online Aman Terverifikasi.</strong>
+            Pembayaran otomatis diproses melalui gateway resmi <strong class="text-sky-300">DANA Enterprise / QRIS</strong> standar Bank Indonesia SNAP.
           </span>
         </div>
 
-        <button onclick="sendOrderToWhatsApp()" class="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-lg shadow-emerald-600/30 transition flex items-center justify-center gap-2">
-          <i class="fa-brands fa-whatsapp text-base"></i>
-          <span>Kirim Pesanan via WhatsApp</span>
-        </button>
-        <button onclick="backToCheckoutForm()" class="w-full mt-2 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-1.5">
+        <div class="space-y-2.5 mb-3">
+          <button id="btn-pay-dana" onclick="processDanaPayment()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-wallet text-sm"></i>
+            <span id="btn-pay-dana-text">Bayar Online via DANA / QRIS</span>
+          </button>
+          <button onclick="sendOrderToWhatsApp()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-2">
+            <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i>
+            <span>Konsultasi & Konfirmasi via WhatsApp</span>
+          </button>
+        </div>
+        <button onclick="backToCheckoutForm()" class="w-full py-2 text-slate-400 hover:text-white font-medium text-xs transition flex items-center justify-center gap-1.5">
           <i class="fa-solid fa-pen"></i>
-          <span>Ubah Data</span>
+          <span>Ubah Data Pesanan</span>
         </button>
       </div>
 
