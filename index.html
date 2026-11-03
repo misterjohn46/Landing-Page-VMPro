@@ -1524,7 +1524,75 @@
 
 
   <!-- Custom JavaScript -->
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=20261103_dana"></script>
+  <script>
+    // Global DANA Payment Handler (Bypass Cache)
+    window.processDanaPayment = async function () {
+      const btn = document.getElementById("btn-pay-dana");
+      const btnText = document.getElementById("btn-pay-dana-text");
+      const originalText = btnText ? btnText.textContent : "Bayar Online via DANA / QRIS";
+
+      try {
+        if (btn) btn.disabled = true;
+        if (btnText) btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menghubungkan ke DANA...';
+
+        const pkgName = (window.currentOrder && window.currentOrder.packageName) 
+          || document.getElementById("summary-package")?.textContent 
+          || "Paket POS Standar";
+          
+        const rawPrice = (window.currentOrder && window.currentOrder.price) 
+          || (document.getElementById("summary-price")?.textContent || "2500000").replace(/[^0-9]/g, '');
+
+        const custName = (window.currentOrder && window.currentOrder.name) 
+          || document.getElementById("summary-name")?.textContent 
+          || (document.getElementById("checkout-cust-name")?.value || "Pelanggan");
+
+        const custEmail = (window.currentOrder && window.currentOrder.email) 
+          || document.getElementById("summary-email")?.textContent 
+          || (document.getElementById("checkout-cust-email")?.value || "");
+
+        const custPhone = (window.currentOrder && window.currentOrder.phone) 
+          || document.getElementById("summary-phone")?.textContent 
+          || (document.getElementById("checkout-cust-phone")?.value || "");
+
+        const invoice = (window.currentOrder && window.currentOrder.invoice) 
+          || document.getElementById("summary-invoice")?.textContent 
+          || ("VMP-" + Date.now().toString(36).toUpperCase());
+
+        const response = await fetch('/api/dana-checkout.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            packageName: pkgName,
+            price: Number(rawPrice) || 2500000,
+            name: custName,
+            email: custEmail,
+            phone: custPhone,
+            invoice: invoice
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'success' && result.checkoutUrl) {
+          if (btnText) btnText.textContent = 'Membuka Pembayaran...';
+          window.location.href = result.checkoutUrl;
+        } else {
+          alert(result.message || 'Gagal memproses pembayaran DANA.');
+          if (btn) btn.disabled = false;
+          if (btnText) btnText.textContent = originalText;
+        }
+      } catch (err) {
+        console.error('DANA Checkout Error:', err);
+        const inv = (window.currentOrder && window.currentOrder.invoice) || "VMP-ORDER";
+        const amt = (window.currentOrder && window.currentOrder.price) || 2500000;
+        const pkg = (window.currentOrder && window.currentOrder.packageName) || "Paket Layanan";
+        window.location.href = '/payment-finish.html?order_id=' + encodeURIComponent(inv) + '&amount=' + encodeURIComponent(amt) + '&pkg=' + encodeURIComponent(pkg);
+      }
+    };
+  </script>
 </body>
 </html>
 
