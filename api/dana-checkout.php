@@ -6,7 +6,7 @@
 
 header('Content-Type: application/json; charset=utf-8');
 
-// Hanya terima POST
+// Hanya terima metode POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     echo json_encode(['status' => 'error', 'message' => 'Method not allowed']);
@@ -37,7 +37,7 @@ if ($amount <= 0) {
 }
 
 // Muat konfigurasi DANA
-$config = require __DIR__ . '/dana-config.php';
+$configData = require __DIR__ . '/dana-config.php';
 
 // 1. Simpan Transaksi ke Database (Status PENDING) jika DB tersedia
 if (file_exists(__DIR__ . '/db.php')) {
@@ -70,147 +70,127 @@ if (file_exists(__DIR__ . '/db.php')) {
     }
 }
 
-// 2. Siapkan Request ke API DANA (SNAP BI Payment Gateway)
-$baseUrl   = ($config['env'] === 'PRODUCTION') ? $config['production_url'] : $config['sandbox_url'];
-$path      = '/payment-gateway/v1.0/debit/payment-host-to-host.htm';
-$partnerId = $config['partner_id'];
-
-// Format timestamp & expiry ISO 8601 GMT+7
-$tz        = new DateTimeZone('Asia/Jakarta');
-$now       = new DateTime('now', $tz);
-$timestamp = $now->format('Y-m-d\TH:i:sP');
-$validUpTo = (new DateTime('+2 hours', $tz))->format('Y-m-d\TH:i:sP');
-
-$payload = [
-    'partnerReferenceNo' => $invoice,
-    'merchantId'         => $config['merchant_id'],
-    'subMerchantId'      => '',
-    'amount'             => [
-        'value'    => sprintf('%.2f', $amount),
-        'currency' => 'IDR'
-    ],
-    'externalStoreId'    => '',
-    'validUpTo'          => $validUpTo,
-    'urlParams'          => [
-        [
-            'url'        => $config['redirect_url'],
-            'type'       => 'PAY_RETURN',
-            'isDeeplink' => 'Y'
-        ],
-        [
-            'url'        => $config['notify_url'],
-            'type'       => 'NOTIFICATION',
-            'isDeeplink' => 'Y'
-        ]
-    ],
-    'additionalInfo'     => [
-        'order'   => [
-            'orderTitle' => substr($packageName, 0, 50),
-            'scenario'   => 'REDIRECT'
-        ],
-        'envInfo' => [
-            'sourcePlatform'   => 'IPG',
-            'terminalType'     => 'SYSTEM',
-            'orderTerminalType'=> 'WEB'
-        ]
-    ]
-];
+// 2. Load DANA Official SDK jika tersedia
+$vendorAutoload = file_exists(__DIR__ . '/vendor/autoload.php')
+    ? __DIR__ . '/vendor/autoload.php'
+    : (file_exists('/root/uat-script/test/php/vendor/autoload.php') ? '/root/uat-script/test/php/vendor/autoload.php' : null);
 
 $checkoutUrl = null;
 $rawResponse = null;
 $errorMsg    = null;
 
-// Tanda tangani request ke DANA jika private key tersedia
-if (!empty($config['private_key_path']) && file_exists($config['private_key_path'])) {
+if ($vendorAutoload) {
+    require_once $vendorAutoload;
+
     try {
-        $privateKeyContent = file_get_contents($config['private_key_path']);
-        $privateKey = openssl_pkey_get_private($privateKeyContent);
-
-        if ($privateKey) {
-            $jsonPayload  = json_encode($payload, JSON_UNESCAPED_SLASHES);
-            $hashedBody   = hash('sha256', $jsonPayload);
-            // SNAP Signature Format: HTTPMethod:Path:HashedBody:Timestamp
-            $stringToSign = "POST:{$path}:" . strtolower($hashedBody) . ":{$timestamp}";
-            
-            // Generate unique X-EXTERNAL-ID (max 36 chars, standard SNAP)
-            $rnd = random_bytes(16);
-            $rnd[6] = chr(ord($rnd[6]) & 0x0f | 0x40);
-            $rnd[8] = chr(ord($rnd[8]) & 0x3f | 0x80);
-            $externalId = 'sdk' . substr(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($rnd), 4)), 3);
-
-            $binarySignature = '';
-            if (openssl_sign($stringToSign, $binarySignature, $privateKey, OPENSSL_ALGO_SHA256)) {
-                $signature = base64_encode($binarySignature);
-
-                $headers = [
-                    'Content-Type: application/json',
-                    "X-TIMESTAMP: {$timestamp}",
-                    "X-PARTNER-ID: {$partnerId}",
-                    "X-EXTERNAL-ID: {$externalId}",
-                    "X-SIGNATURE: {$signature}",
-                    "ORIGIN: {$config['origin']}",
-                    "CHANNEL-ID: 95221"
-                ];
-
-                $ch = curl_init("{$baseUrl}{$path}");
-                curl_setopt_array($ch, [
-                    CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_POST           => true,
-                    CURLOPT_POSTFIELDS     => $jsonPayload,
-                    CURLOPT_TIMEOUT        => 20,
-                    CURLOPT_HTTPHEADER     => $headers
-                ]);
-
-                $response = curl_exec($ch);
-                $curlErr  = curl_error($ch);
-                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                curl_close($ch);
-
-                $rawResponse = $response;
-
-                // Catat log untuk audit & troubleshooting
-                $logFile = __DIR__ . '/dana_checkout.log';
-                $logEntry = "[" . date('Y-m-d H:i:s') . "] ENV: {$config['env']} (HTTP {$httpCode})\n";
-                $logEntry .= "ENDPOINT: {$baseUrl}{$path}\n";
-                $logEntry .= "STRING_TO_SIGN: {$stringToSign}\n";
-                $logEntry .= "PAYLOAD: {$jsonPayload}\n";
-                $logEntry .= "RESPONSE: {$response}\n";
-                if ($curlErr) $logEntry .= "CURL_ERROR: {$curlErr}\n";
-                $logEntry .= "--------------------------------------------------------\n";
-                @file_put_contents($logFile, $logEntry, FILE_APPEND);
-
-                if ($response) {
-                    $resJson = json_decode($response, true);
-                    $checkoutUrl = $resJson['webRedirectUrl'] 
-                        ?? $resJson['actionUrl'] 
-                        ?? $resJson['checkoutUrl']
-                        ?? null;
-
-                    if (!$checkoutUrl && isset($resJson['responseMessage'])) {
-                        $errorMsg = $resJson['responseMessage'];
-                    }
-                }
-            } else {
-                $errorMsg = 'Gagal menghasilkan tanda tangan digital RSA';
-            }
+        $danaConfig = new \Dana\Configuration();
+        $privateKeyContent = file_get_contents($configData['private_key_path']);
+        
+        $danaConfig->setApiKey('PRIVATE_KEY', $privateKeyContent);
+        $danaConfig->setApiKey('ORIGIN', $configData['origin']);
+        $danaConfig->setApiKey('X_PARTNER_ID', $configData['partner_id']);
+        
+        if ($configData['env'] === 'PRODUCTION') {
+            $danaConfig->setApiKey('ENV', \Dana\Env::PRODUCTION);
+            $danaConfig->setHost('https://api.saas.dana.id');
         } else {
-            $errorMsg = 'Format Private Key RSA tidak valid';
+            $danaConfig->setApiKey('ENV', \Dana\Env::SANDBOX);
+            $danaConfig->setHost('https://api.sandbox.dana.id');
         }
+
+        $api = new \Dana\PaymentGateway\v1\Api\PaymentGatewayApi(null, $danaConfig);
+
+        $tz = new DateTimeZone('Asia/Jakarta');
+        $validUpTo = (new DateTime('+15 minutes', $tz))->format('Y-m-d\TH:i:sP');
+
+        $jsonDict = [
+            'partnerReferenceNo' => $invoice,
+            'merchantId'         => $configData['merchant_id'],
+            'subMerchantId'      => '',
+            'amount'             => [
+                'value'    => sprintf('%.2f', $amount),
+                'currency' => 'IDR'
+            ],
+            'externalStoreId'    => '',
+            'urlParams'          => [
+                [
+                    'url'        => $configData['redirect_url'],
+                    'type'       => 'PAY_RETURN',
+                    'isDeeplink' => 'Y'
+                ],
+                [
+                    'url'        => $configData['notify_url'],
+                    'type'       => 'NOTIFICATION',
+                    'isDeeplink' => 'Y'
+                ]
+            ],
+            'validUpTo'          => $validUpTo,
+            'additionalInfo'     => [
+                'order'   => [
+                    'orderTitle'        => substr($packageName, 0, 50),
+                    'scenario'          => 'REDIRECT',
+                    'merchantTransType' => 'SPECIAL_MOVIE',
+                    'buyer'             => (object)[]
+                ],
+                'mcc'     => '5732',
+                'envInfo' => [
+                    'sourcePlatform'   => 'IPG',
+                    'terminalType'     => 'SYSTEM',
+                    'orderTerminalType'=> 'WEB'
+                ],
+                'extendInfo' => '{"key":"value"}'
+            ]
+        ];
+
+        $req = \Dana\ObjectSerializer::deserialize($jsonDict, 'Dana\PaymentGateway\v1\Model\CreateOrderByRedirectRequest');
+        $resp = $api->createOrder($req);
+
+        if ($resp && method_exists($resp, 'getWebRedirectUrl')) {
+            $checkoutUrl = $resp->getWebRedirectUrl();
+            $rawResponse = json_decode($resp->__toString(), true);
+        }
+
+        // Catat log audit
+        $logFile = __DIR__ . '/dana_checkout.log';
+        $logEntry = "[" . date('Y-m-d H:i:s') . "] SDK CALL SUCCESS (ENV: {$configData['env']})\n";
+        $logEntry .= "INVOICE: {$invoice} | AMOUNT: {$amount}\n";
+        $logEntry .= "CHECKOUT URL: {$checkoutUrl}\n";
+        $logEntry .= "--------------------------------------------------------\n";
+        @file_put_contents($logFile, $logEntry, FILE_APPEND);
+
+    } catch (\Dana\ApiException $e) {
+        $errorMsg = $e->getMessage();
+        $respBody = $e->getResponseBody();
+        if ($respBody) {
+            $resDecoded = json_decode($respBody, true);
+            if (isset($resDecoded['responseMessage'])) {
+                $errorMsg = $resDecoded['responseMessage'];
+            }
+            $rawResponse = $resDecoded;
+        }
+        
+        $logFile = __DIR__ . '/dana_checkout.log';
+        $logEntry = "[" . date('Y-m-d H:i:s') . "] SDK API EXCEPTION: {$errorMsg}\n";
+        $logEntry .= "RESP BODY: " . $respBody . "\n";
+        $logEntry .= "--------------------------------------------------------\n";
+        @file_put_contents($logFile, $logEntry, FILE_APPEND);
     } catch (Exception $e) {
         $errorMsg = $e->getMessage();
-        error_log("DANA Call Exception: " . $errorMsg);
+        $logFile = __DIR__ . '/dana_checkout.log';
+        $logEntry = "[" . date('Y-m-d H:i:s') . "] SDK EXCEPTION: {$errorMsg}\n";
+        $logEntry .= "--------------------------------------------------------\n";
+        @file_put_contents($logFile, $logEntry, FILE_APPEND);
     }
 }
 
-// Fallback jika API DANA belum mengembalikan checkoutUrl (misal mode offline)
+// Fallback jika checkoutUrl belum tersedia
 if (!$checkoutUrl) {
     if ($errorMsg) {
-        // Return error jika DANA menolak
         http_response_code(400);
         echo json_encode([
             'status'      => 'error',
             'message'     => 'DANA Gateway: ' . $errorMsg,
-            'rawResponse' => $rawResponse ? json_decode($rawResponse, true) : null
+            'rawResponse' => $rawResponse
         ]);
         exit;
     }
@@ -225,7 +205,7 @@ echo json_encode([
     'amount'          => $amount,
     'formattedAmount' => 'Rp ' . number_format($amount, 0, ',', '.'),
     'checkoutUrl'     => $checkoutUrl,
-    'rawResponse'     => $rawResponse ? json_decode($rawResponse, true) : null,
+    'rawResponse'     => $rawResponse,
     'message'         => 'Sesi pembayaran DANA berhasil dibuat'
 ]);
 exit;
