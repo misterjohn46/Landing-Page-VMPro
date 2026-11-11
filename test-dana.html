@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uji Transaksi Produksi DANA - Vega MediaPro</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex items-center justify-center p-4 antialiased selection:bg-sky-500 selection:text-white">
+    <div class="max-w-md w-full bg-slate-900/90 backdrop-blur-xl border border-slate-800 rounded-3xl p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+        <!-- Glow accent -->
+        <div class="absolute -top-24 -left-24 w-48 h-48 bg-sky-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-24 -right-24 w-48 h-48 bg-blue-600/20 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Header -->
+        <div class="text-center mb-6">
+            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 mb-3">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> DANA Enterprise Live Production
+            </span>
+            <h1 class="text-2xl font-extrabold text-white tracking-tight">Uji Coba Transaksi</h1>
+            <p class="text-slate-400 text-xs mt-1">Selesaikan 1 pembayaran nyata untuk mengaktifkan fitur pencairan saldo (Settlement).</p>
+        </div>
+
+        <!-- Requirement Box -->
+        <div class="p-4 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-xs text-sky-200/90 mb-5 flex gap-3 leading-relaxed">
+            <i class="fa-solid fa-shield-check text-sky-400 text-base mt-0.5 shrink-0"></i>
+            <div>
+                <strong class="text-white font-semibold">Ketentuan Uji Coba Produksi DANA:</strong>
+                <p class="text-slate-300 mt-1">Batas transaksi masa onboarding: maks 5x/hari, maks Rp 50.000/hari. Dana pembayaran masuk ke akun saldo merchant DANA Anda sendiri.</p>
+            </div>
+        </div>
+
+        <div id="error-box" class="hidden p-4 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-xs text-rose-300 mb-5">
+            <div class="flex items-start gap-2.5">
+                <i class="fa-solid fa-triangle-exclamation text-rose-400 mt-0.5 shrink-0"></i>
+                <div id="error-message"></div>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <form id="form-test-dana" onsubmit="handleDanaTestSubmit(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nama Pembayar</label>
+                <input type="text" id="cust-name" value="Vega MediaPro Tester" required
+                       class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500 transition">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Email Pembayar</label>
+                <input type="email" id="cust-email" value="studio46probolinggo@gmail.com" required
+                       class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500 transition">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Nomor WhatsApp / HP</label>
+                <input type="tel" id="cust-phone" value="082335338113" required
+                       class="w-full px-4 py-2.5 rounded-xl bg-slate-950 border border-slate-800 text-white text-xs focus:outline-none focus:border-sky-500 transition">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Pilih Nominal Pembayaran Uji Coba</label>
+                <div class="grid grid-cols-3 gap-2">
+                    <label class="cursor-pointer">
+                        <input type="radio" name="test-amount" value="5000" class="peer sr-only">
+                        <div class="py-2.5 text-center rounded-xl border border-slate-800 bg-slate-950 text-xs font-bold text-slate-400 peer-checked:border-sky-500 peer-checked:bg-sky-500/10 peer-checked:text-sky-400 transition">
+                            Rp 5.000
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="test-amount" value="10000" checked class="peer sr-only">
+                        <div class="py-2.5 text-center rounded-xl border border-slate-800 bg-slate-950 text-xs font-bold text-slate-400 peer-checked:border-sky-500 peer-checked:bg-sky-500/10 peer-checked:text-sky-400 transition">
+                            Rp 10.000
+                        </div>
+                    </label>
+                    <label class="cursor-pointer">
+                        <input type="radio" name="test-amount" value="20000" class="peer sr-only">
+                        <div class="py-2.5 text-center rounded-xl border border-slate-800 bg-slate-950 text-xs font-bold text-slate-400 peer-checked:border-sky-500 peer-checked:bg-sky-500/10 peer-checked:text-sky-400 transition">
+                            Rp 20.000
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <div class="pt-2">
+                <button type="submit" id="btn-submit"
+                        class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+                    <i class="fa-solid fa-wallet"></i>
+                    <span id="btn-submit-text">Bayar via DANA Sekarang</span>
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-5 text-center">
+            <a href="https://vegamediapro.web.id" class="text-xs text-slate-500 hover:text-slate-300 transition">
+                &larr; Kembali ke Beranda Vega MediaPro
+            </a>
+        </div>
+    </div>
+
+    <script>
+        async function handleDanaTestSubmit(e) {
+            e.preventDefault();
+            const errBox = document.getElementById('error-box');
+            const errMsg = document.getElementById('error-message');
+            errBox.classList.add('hidden');
+
+            const btn = document.getElementById('btn-submit');
+            const btnText = document.getElementById('btn-submit-text');
+            const originalText = btnText.textContent;
+
+            const name = document.getElementById('cust-name').value.trim();
+            const email = document.getElementById('cust-email').value.trim();
+            const phone = document.getElementById('cust-phone').value.trim();
+            const amount = Number(document.querySelector('input[name="test-amount"]:checked').value) || 10000;
+            const invoice = 'VMP-' + Date.now().toString().slice(-8);
+
+            try {
+                btn.disabled = true;
+                btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menghubungkan ke DANA...';
+
+                const res = await fetch('/api/dana-checkout.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        packageName: 'Uji Transaksi Produksi DANA',
+                        price: amount,
+                        name: name,
+                        email: email,
+                        phone: phone,
+                        invoice: invoice
+                    })
+                });
+
+                const result = await res.json();
+
+                if (result.status === 'success' && result.checkoutUrl) {
+                    btnText.innerHTML = '<i class="fa-solid fa-check"></i> Mengalihkan ke DANA...';
+                    window.location.href = result.checkoutUrl;
+                } else {
+                    btn.disabled = false;
+                    btnText.textContent = originalText;
+                    errBox.classList.remove('hidden');
+                    errMsg.textContent = result.message || 'Gagal memproses pembayaran ke server DANA.';
+                }
+            } catch (err) {
+                console.error('Test Checkout Error:', err);
+                btn.disabled = false;
+                btnText.textContent = originalText;
+                errBox.classList.remove('hidden');
+                errMsg.textContent = 'Terjadi kesalahan koneksi: ' + err.message;
+            }
+        }
+    </script>
+</body>
+</html>

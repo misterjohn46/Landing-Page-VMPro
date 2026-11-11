@@ -1,6 +1,6 @@
 <?php
 /**
- * DANA Enterprise Checkout Endpoint
+ * DANA Enterprise Checkout Endpoint - Production Ready
  * Vega MediaPro (https://vegamediapro.web.id/api/dana-checkout.php)
  */
 
@@ -26,7 +26,7 @@ if (!$data) {
 $packageName = trim($data['packageName'] ?? 'Paket Layanan Software');
 $amount      = (float) ($data['price'] ?? 0);
 $custName    = trim($data['name'] ?? 'Pelanggan Vega MediaPro');
-$custEmail   = trim($data['email'] ?? 'pelanggan@vegamediapro.web.id');
+$custEmail   = trim($data['email'] ?? 'studio46probolinggo@gmail.com');
 $custPhone   = trim($data['phone'] ?? '082335338113');
 $invoice     = trim($data['invoice'] ?? ('VMP-' . strtoupper(substr(uniqid(), -6))));
 
@@ -39,7 +39,7 @@ if ($amount <= 0) {
 // Muat konfigurasi DANA
 $config = require __DIR__ . '/dana-config.php';
 
-// 1. Simpan Transaksi ke Database (Status PENDING)
+// 1. Simpan Transaksi ke Database (Status PENDING) jika DB tersedia
 if (file_exists(__DIR__ . '/db.php')) {
     try {
         require_once __DIR__ . '/db.php';
@@ -70,113 +70,155 @@ if (file_exists(__DIR__ . '/db.php')) {
     }
 }
 
-// 2. Siapkan Request ke API DANA
+// 2. Siapkan Request ke API DANA (SNAP BI Payment Gateway)
 $baseUrl   = ($config['env'] === 'PRODUCTION') ? $config['production_url'] : $config['sandbox_url'];
-$timestamp = date('Y-m-d\TH:i:sP');
+$path      = '/payment-gateway/v1.0/debit/payment-host-to-host.htm';
 $partnerId = $config['partner_id'];
-$externalId = $invoice;
+
+// Format timestamp & expiry ISO 8601 GMT+7
+$tz        = new DateTimeZone('Asia/Jakarta');
+$now       = new DateTime('now', $tz);
+$timestamp = $now->format('Y-m-d\TH:i:sP');
+$validUpTo = (new DateTime('+2 hours', $tz))->format('Y-m-d\TH:i:sP');
 
 $payload = [
     'partnerReferenceNo' => $invoice,
-    'amount' => [
+    'merchantId'         => $config['merchant_id'],
+    'subMerchantId'      => '',
+    'amount'             => [
         'value'    => sprintf('%.2f', $amount),
         'currency' => 'IDR'
     ],
-    'merchantId'   => $config['merchant_id'],
-    'payOptionDetails' => [
+    'externalStoreId'    => '',
+    'validUpTo'          => $validUpTo,
+    'urlParams'          => [
         [
-            'payMethod' => 'BALANCE'
-        ]
-    ],
-    'additionalInfo' => [
-        'order' => [
-            'orderTitle' => substr($packageName, 0, 50),
-            'goods' => [
-                [
-                    'goodsId'   => 'SRV-' . substr(md5($packageName), 0, 8),
-                    'name'      => $packageName,
-                    'price'     => sprintf('%.2f', $amount),
-                    'quantity'  => '1'
-                ]
-            ]
-        ]
-    ],
-    'urlParam' => [
-        [
-            'url'  => $config['redirect_url'],
-            'type' => 'PAY_RETURN'
+            'url'        => $config['redirect_url'],
+            'type'       => 'PAY_RETURN',
+            'isDeeplink' => 'Y'
         ],
         [
-            'url'  => $config['notify_url'],
-            'type' => 'NOTIFICATION'
+            'url'        => $config['notify_url'],
+            'type'       => 'NOTIFICATION',
+            'isDeeplink' => 'Y'
+        ]
+    ],
+    'additionalInfo'     => [
+        'order'   => [
+            'orderTitle' => substr($packageName, 0, 50),
+            'scenario'   => 'REDIRECT'
+        ],
+        'envInfo' => [
+            'sourcePlatform'   => 'IPG',
+            'terminalType'     => 'SYSTEM',
+            'orderTerminalType'=> 'WEB'
         ]
     ]
 ];
 
 $checkoutUrl = null;
-$qrString = null;
+$rawResponse = null;
+$errorMsg    = null;
 
-// Jika private key tersedia di server, tanda tangani request ke DANA
+// Tanda tangani request ke DANA jika private key tersedia
 if (!empty($config['private_key_path']) && file_exists($config['private_key_path'])) {
     try {
         $privateKeyContent = file_get_contents($config['private_key_path']);
         $privateKey = openssl_pkey_get_private($privateKeyContent);
 
         if ($privateKey) {
-            $jsonPayload = json_encode($payload);
-            $shaPayload = hash('sha256', $jsonPayload);
-            $stringToSign = "POST:/payment-gateway/v1.0/debit/payment-host-to-host.htm:{$partnerId}:{$timestamp}:{$shaPayload}";
+            $jsonPayload  = json_encode($payload, JSON_UNESCAPED_SLASHES);
+            $hashedBody   = hash('sha256', $jsonPayload);
+            // SNAP Signature Format: HTTPMethod:Path:HashedBody:Timestamp
+            $stringToSign = "POST:{$path}:" . strtolower($hashedBody) . ":{$timestamp}";
             
             $binarySignature = '';
             if (openssl_sign($stringToSign, $binarySignature, $privateKey, OPENSSL_ALGO_SHA256)) {
                 $signature = base64_encode($binarySignature);
 
-                $ch = curl_init("{$baseUrl}/payment-gateway/v1.0/debit/payment-host-to-host.htm");
+                $headers = [
+                    'Content-Type: application/json',
+                    "X-TIMESTAMP: {$timestamp}",
+                    "X-PARTNER-ID: {$partnerId}",
+                    "X-SIGNATURE: {$signature}",
+                    "ORIGIN: {$config['origin']}",
+                    "CHANNEL-ID: 95221"
+                ];
+
+                $ch = curl_init("{$baseUrl}{$path}");
                 curl_setopt_array($ch, [
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_POST           => true,
                     CURLOPT_POSTFIELDS     => $jsonPayload,
-                    CURLOPT_TIMEOUT        => 10,
-                    CURLOPT_HTTPHEADER     => [
-                        'Content-Type: application/json',
-                        "X-TIMESTAMP: {$timestamp}",
-                        "X-PARTNER-ID: {$partnerId}",
-                        "X-EXTERNAL-ID: {$externalId}",
-                        "X-SIGNATURE: {$signature}",
-                        "ORIGIN: {$config['origin']}"
-                    ]
+                    CURLOPT_TIMEOUT        => 20,
+                    CURLOPT_HTTPHEADER     => $headers
                 ]);
 
                 $response = curl_exec($ch);
+                $curlErr  = curl_error($ch);
+                $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
                 curl_close($ch);
+
+                $rawResponse = $response;
+
+                // Catat log untuk audit & troubleshooting
+                $logFile = __DIR__ . '/dana_checkout.log';
+                $logEntry = "[" . date('Y-m-d H:i:s') . "] ENV: {$config['env']} (HTTP {$httpCode})\n";
+                $logEntry .= "ENDPOINT: {$baseUrl}{$path}\n";
+                $logEntry .= "STRING_TO_SIGN: {$stringToSign}\n";
+                $logEntry .= "PAYLOAD: {$jsonPayload}\n";
+                $logEntry .= "RESPONSE: {$response}\n";
+                if ($curlErr) $logEntry .= "CURL_ERROR: {$curlErr}\n";
+                $logEntry .= "--------------------------------------------------------\n";
+                @file_put_contents($logFile, $logEntry, FILE_APPEND);
 
                 if ($response) {
                     $resJson = json_decode($response, true);
-                    $checkoutUrl = $resJson['webRedirectUrl'] ?? $resJson['actionUrl'] ?? null;
-                    $qrString    = $resJson['qrCode'] ?? $resJson['qrContent'] ?? null;
+                    $checkoutUrl = $resJson['webRedirectUrl'] 
+                        ?? $resJson['actionUrl'] 
+                        ?? $resJson['checkoutUrl']
+                        ?? null;
+
+                    if (!$checkoutUrl && isset($resJson['responseMessage'])) {
+                        $errorMsg = $resJson['responseMessage'];
+                    }
                 }
+            } else {
+                $errorMsg = 'Gagal menghasilkan tanda tangan digital RSA';
             }
+        } else {
+            $errorMsg = 'Format Private Key RSA tidak valid';
         }
     } catch (Exception $e) {
-        error_log("DANA Call Exception: " . $e->getMessage());
+        $errorMsg = $e->getMessage();
+        error_log("DANA Call Exception: " . $errorMsg);
     }
 }
 
-// Fallback jika DANA Sandbox API sedang dalam tahap Uji Devsite:
-// Buat halaman bayar simulasi langsung terhubung ke payment-finish.html
+// Fallback jika API DANA belum mengembalikan checkoutUrl (misal mode offline)
 if (!$checkoutUrl) {
+    if ($errorMsg) {
+        // Return error jika DANA menolak
+        http_response_code(400);
+        echo json_encode([
+            'status'      => 'error',
+            'message'     => 'DANA Gateway: ' . $errorMsg,
+            'rawResponse' => $rawResponse ? json_decode($rawResponse, true) : null
+        ]);
+        exit;
+    }
     $checkoutUrl = "https://vegamediapro.web.id/payment-finish.html?order_id=" . urlencode($invoice) . "&amount=" . urlencode($amount) . "&pkg=" . urlencode($packageName);
 }
 
 http_response_code(200);
 echo json_encode([
-    'status'      => 'success',
-    'invoice'     => $invoice,
-    'packageName' => $packageName,
-    'amount'      => $amount,
+    'status'          => 'success',
+    'invoice'         => $invoice,
+    'packageName'     => $packageName,
+    'amount'          => $amount,
     'formattedAmount' => 'Rp ' . number_format($amount, 0, ',', '.'),
-    'checkoutUrl' => $checkoutUrl,
-    'qrString'    => $qrString,
-    'message'     => 'Tagihan DANA berhasil dibuat'
+    'checkoutUrl'     => $checkoutUrl,
+    'rawResponse'     => $rawResponse ? json_decode($rawResponse, true) : null,
+    'message'         => 'Sesi pembayaran DANA berhasil dibuat'
 ]);
 exit;
