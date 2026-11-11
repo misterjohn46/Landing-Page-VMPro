@@ -132,6 +132,12 @@ if (!empty($config['private_key_path']) && file_exists($config['private_key_path
             // SNAP Signature Format: HTTPMethod:Path:HashedBody:Timestamp
             $stringToSign = "POST:{$path}:" . strtolower($hashedBody) . ":{$timestamp}";
             
+            // Generate unique X-EXTERNAL-ID (max 36 chars, standard SNAP)
+            $rnd = random_bytes(16);
+            $rnd[6] = chr(ord($rnd[6]) & 0x0f | 0x40);
+            $rnd[8] = chr(ord($rnd[8]) & 0x3f | 0x80);
+            $externalId = 'sdk' . substr(vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($rnd), 4)), 3);
+
             $binarySignature = '';
             if (openssl_sign($stringToSign, $binarySignature, $privateKey, OPENSSL_ALGO_SHA256)) {
                 $signature = base64_encode($binarySignature);
@@ -140,6 +146,7 @@ if (!empty($config['private_key_path']) && file_exists($config['private_key_path
                     'Content-Type: application/json',
                     "X-TIMESTAMP: {$timestamp}",
                     "X-PARTNER-ID: {$partnerId}",
+                    "X-EXTERNAL-ID: {$externalId}",
                     "X-SIGNATURE: {$signature}",
                     "ORIGIN: {$config['origin']}",
                     "CHANNEL-ID: 95221"
