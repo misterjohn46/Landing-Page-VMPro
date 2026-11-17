@@ -25,4 +25,5 @@ server/credentials.local.php
 # Dependencies & Archives
 api/vendor/
 vendor/
+api/.cache/
 *.zip
