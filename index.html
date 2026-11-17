@@ -165,6 +165,8 @@
   
   <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/css/style.css" />
+  <!-- doit.id Embed Checkout -->
+  <script src="https://doit.id/embed.js"></script>
 </head>
 
 <body class="bg-slate-950 text-slate-100 antialiased overflow-x-hidden selection:bg-indigo-600 selection:text-white">
@@ -1463,13 +1465,17 @@
         </div>
 
         <div class="space-y-2.5 mb-3">
-          <button id="btn-pay-dana" onclick="processDanaPayment()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2">
-            <i class="fa-solid fa-wallet text-sm"></i>
-            <span id="btn-pay-dana-text">Bayar Online via DANA / QRIS</span>
+          <button id="btn-pay-doit" onclick="processDoitPayment()" class="w-full py-3.5 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-bold text-xs shadow-lg shadow-indigo-500/25 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-qrcode text-sm"></i>
+            <span id="btn-pay-doit-text">Bayar via QRIS &amp; Virtual Account (doit.id)</span>
           </button>
-          <button onclick="sendOrderToWhatsApp()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-2">
+          <button id="btn-pay-dana" onclick="processDanaPayment()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-sky-500/20 transition flex items-center justify-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-wallet text-sm"></i>
+            <span id="btn-pay-dana-text">Bayar via DANA Enterprise</span>
+          </button>
+          <button onclick="sendOrderToWhatsApp()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-semibold text-xs border border-slate-700 transition flex items-center justify-center gap-2 cursor-pointer">
             <i class="fa-brands fa-whatsapp text-sm text-emerald-400"></i>
-            <span>Konsultasi & Konfirmasi via WhatsApp</span>
+            <span>Konsultasi &amp; Konfirmasi via WhatsApp</span>
           </button>
         </div>
         <button onclick="backToCheckoutForm()" class="w-full py-2 text-slate-400 hover:text-white font-medium text-xs transition flex items-center justify-center gap-1.5">
@@ -1527,6 +1533,85 @@
   <script src="assets/js/main.js?v=20261103_dana"></script>
   <script>
     // Global DANA Payment Handler (Bypass Cache)
+        // Global doit.id Payment Handler
+    window.processDoitPayment = async function () {
+      const btn = document.getElementById("btn-pay-doit");
+      const btnText = document.getElementById("btn-pay-doit-text");
+      const originalText = btnText ? btnText.textContent : "Bayar via QRIS & Virtual Account (doit.id)";
+
+      try {
+        if (btn) btn.disabled = true;
+        if (btnText) btnText.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Menghubungkan ke doit.id...';
+
+        const pkgName = (window.currentOrder && window.currentOrder.packageName) 
+          || document.getElementById("summary-package")?.textContent 
+          || "Paket Layanan Software";
+          
+        const rawPrice = (window.currentOrder && window.currentOrder.price) 
+          || (document.getElementById("summary-price")?.textContent || "2500000").replace(/[^0-9]/g, '');
+
+        const custName = (window.currentOrder && window.currentOrder.name) 
+          || document.getElementById("summary-name")?.textContent 
+          || (document.getElementById("checkout-cust-name")?.value || "Pelanggan");
+
+        const custEmail = (window.currentOrder && window.currentOrder.email) 
+          || document.getElementById("summary-email")?.textContent 
+          || (document.getElementById("checkout-cust-email")?.value || "");
+
+        const custPhone = (window.currentOrder && window.currentOrder.phone) 
+          || document.getElementById("summary-phone")?.textContent 
+          || (document.getElementById("checkout-cust-phone")?.value || "");
+
+        const invoice = (window.currentOrder && window.currentOrder.invoice) 
+          || document.getElementById("summary-invoice")?.textContent 
+          || ("VMP-DOIT-" + Date.now().toString(36).toUpperCase());
+
+        const response = await fetch('/api/doit-checkout.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            packageName: pkgName,
+            price: Number(rawPrice) || 2500000,
+            name: custName,
+            email: custEmail,
+            phone: custPhone,
+            invoice: invoice
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.status === 'success' && result.hosted_url) {
+          if (btnText) btnText.textContent = 'Membuka Pembayaran...';
+          if (window.doit && typeof window.doit.open === 'function') {
+            if (btn) btn.disabled = false;
+            if (btnText) btnText.textContent = originalText;
+            window.doit.open(result.hosted_url, {
+              onPaid: function (ev) {
+                window.location.href = `/payment-finish.html?order_id=${encodeURIComponent(invoice)}&amount=${encodeURIComponent(rawPrice)}&pkg=${encodeURIComponent(pkgName)}&gateway=doit`;
+              },
+              onClose: function () {
+                console.log('Checkout modal closed');
+              }
+            });
+          } else {
+            window.location.href = result.hosted_url;
+          }
+        } else {
+          alert(result.message || 'Gagal memproses pembayaran doit.id.');
+          if (btn) btn.disabled = false;
+          if (btnText) btnText.textContent = originalText;
+        }
+      } catch (err) {
+        console.error('Doit Checkout Error:', err);
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = originalText;
+        alert('Terjadi kesalahan koneksi saat memproses pembayaran.');
+      }
+    };
+
     window.processDanaPayment = async function () {
       const btn = document.getElementById("btn-pay-dana");
       const btnText = document.getElementById("btn-pay-dana-text");
