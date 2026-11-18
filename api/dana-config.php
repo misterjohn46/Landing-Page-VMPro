@@ -1,13 +1,23 @@
 <?php
 /**
- * DANA Enterprise Configuration - PRODUCTION
+ * DANA Enterprise Configuration
  * Vega MediaPro (https://vegamediapro.web.id)
  */
 
+if (file_exists(__DIR__ . '/db.php')) {
+    require_once __DIR__ . '/db.php';
+}
+
+$dbEnabled    = function_exists('get_setting') ? get_setting('dana_enabled', '1') : '1';
+$dbEnv        = function_exists('get_setting') ? get_setting('dana_env', 'PRODUCTION') : 'PRODUCTION';
+$dbMerchantId = function_exists('get_setting') ? get_setting('dana_merchant_id') : null;
+$dbClientId   = function_exists('get_setting') ? get_setting('dana_client_id') : null;
+
 return [
-    'env' => 'PRODUCTION', // Mode Live Production Aktif
-    'merchant_id' => '216620010011034337246', // Production Merchant ID
-    'partner_id'  => '2026111112325220504763', // Production Client ID / X-Partner-ID
+    'enabled'     => $dbEnabled === '1',
+    'env'         => $dbEnv ?: 'PRODUCTION',
+    'merchant_id' => $dbMerchantId ?: '216620010011034337246',
+    'partner_id'  => $dbClientId ?: '2026111112325220504763',
     'origin'      => 'https://vegamediapro.web.id',
     
     // URL API

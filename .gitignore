@@ -19,8 +19,11 @@ api/*.log
 !.env.example
 *.pem
 api/*.pem
+api/db.local.php
+*db.local.php
 server/credentials.local.php
 *credentials.local.php
+scratch/
 
 # Dependencies & Archives
 api/vendor/
